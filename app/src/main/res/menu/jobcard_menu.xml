@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:id="@+id/grpView">
+        <item
+            android:id="@+id/idView"
+            android:icon="@drawable/ic_home"
+
+            android:title="View" />
+    </group>
+
+    <group android:id="@+id/grpDownload">
+        <item
+            android:id="@+id/idDownload"
+            android:icon="@drawable/ic_home"
+            android:title="Download" />
+    </group>
+
+</menu>

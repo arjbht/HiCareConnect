@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lnrTasks"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="15dp"
+    android:gravity="center"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:background="@drawable/circle_border"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:gravity="center"
+        android:background="@drawable/circlebg">
+
+
+        <ImageView
+            android:id="@+id/imgTasks"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_right_arrow"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+    <TextView
+        android:id="@+id/txtTasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:text="Analytics"/>
+
+</LinearLayout>
+

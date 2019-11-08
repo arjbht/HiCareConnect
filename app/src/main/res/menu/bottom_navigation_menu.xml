@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Developed by Haerul Muttaqin
+  Last modified 3/11/19 5:26 PM
+  Subscribe : https://www.youtube.com/haerulmuttaqin
+  Copyright (c) 2019. All rights reserved
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+
+        />
+
+    <item
+        android:id="@+id/nav_orders"
+        android:title="Orders"
+        android:icon="@drawable/ic_orders"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+
+        />
+
+    <item
+        android:id="@+id/nav_notification"
+        android:title="Notifications"
+        android:icon="@drawable/ic_notification"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+
+        />
+    <item
+        android:id="@+id/nav_account"
+        android:title="Account"
+        android:icon="@drawable/ic_user"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+
+        />
+
+</menu>
