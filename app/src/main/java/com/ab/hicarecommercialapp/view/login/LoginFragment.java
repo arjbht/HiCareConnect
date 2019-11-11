@@ -2,17 +2,21 @@ package com.ab.hicarecommercialapp.view.login;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.ab.hicarecommercialapp.BaseFragment;
 import com.ab.hicarecommercialapp.R;
@@ -42,6 +46,9 @@ public class LoginFragment extends BaseFragment implements VerifyUserView {
     @BindView(R.id.loader)
     MKLoader loader;
 
+    @BindView(R.id.imgLogo)
+    ImageView imgLogo;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -65,6 +72,11 @@ public class LoginFragment extends BaseFragment implements VerifyUserView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        String base64String = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.COMPANY_IMAGE);
+//        String base64Image = base64String.split(",")[1];
+        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imgLogo.setImageBitmap(decodedByte);
         btnProceed.setOnClickListener(view1 -> getLogin());
     }
 
@@ -104,7 +116,7 @@ public class LoginFragment extends BaseFragment implements VerifyUserView {
     public void setVerifyUserResponse(VerifyUserResponse response) {
         if (response.getSuccess()) {
             replaceFragment(VerifyFragment.newInstance(edtMobile.getText().toString(), response.getData().getUserPassword()), "LoginFragment-VerifyFragment");
-        }else {
+        } else {
             AppUtils.showDialogMessage(getActivity(), "Error ", response.getErrorMessage());
         }
     }

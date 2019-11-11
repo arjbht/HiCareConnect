@@ -19,6 +19,9 @@ public class Company {
     @Expose
     private Integer IsGeofenceModeEnabled = null;
 
+    @SerializedName("CompanyLogo")
+    @Expose
+    private String CompanyLogo = null;
 
     public String getCompanyCode() {
         return CompanyCode;
@@ -42,5 +45,13 @@ public class Company {
 
     public void setIsGeofenceModeEnabled(Integer isGeofenceModeEnabled) {
         IsGeofenceModeEnabled = isGeofenceModeEnabled;
+    }
+
+    public String getCompanyLogo() {
+        return CompanyLogo;
+    }
+
+    public void setCompanyLogo(String companyLogo) {
+        CompanyLogo = companyLogo;
     }
 }

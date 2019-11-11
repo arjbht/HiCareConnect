@@ -252,7 +252,6 @@
                                 android:layout_width="97dp"
                                 android:layout_height="match_parent"
                                 android:text="Service Step"
-
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="15sp" />
                         </LinearLayout>
@@ -300,7 +299,7 @@
                             <TextView
                                 android:layout_width="119dp"
                                 android:layout_height="match_parent"
-                                android:text="Complated On"
+                                android:text="Completed On"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="15sp" />
                         </LinearLayout>

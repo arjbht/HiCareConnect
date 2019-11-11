@@ -12,6 +12,7 @@ public class SharedPreferencesUtility {
 
     public static final String IS_USER_LOGIN = "IS_USER_LOGIN";
     public static final String COMPANY_CODE = "COMPANY_CODE";
+    public static final String COMPANY_IMAGE = "COMPANY_IMAGE";
     public static final String COMPANY_NAME = "COMPANY_NAME";
     public static final String ACCOUNT_ID = "ACCOUNT_ID";
     public static final String IS_ACCOUNT_THERE = "IS_ACCOUNT_THERE";

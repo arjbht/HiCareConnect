@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.ab.hicarecommercialapp.BaseFragment;
 import com.ab.hicarecommercialapp.R;
@@ -99,6 +100,7 @@ public class CompanyCodeFragment extends BaseFragment implements CompanyView {
     public void setCompanyResponse(CompanyResponse response) {
         if (response.getSuccess()) {
             SharedPreferencesUtility.savePrefString(getActivity(), SharedPreferencesUtility.COMPANY_CODE, response.getData().getCompanyCode());
+            SharedPreferencesUtility.savePrefString(getActivity(), SharedPreferencesUtility.COMPANY_IMAGE, response.getData().getCompanyLogo());
             if (response.getData().getIsSelfRegisteredAllowed() == 1) {
                 SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.IS_SELF_REGISTERED, true);
             } else {

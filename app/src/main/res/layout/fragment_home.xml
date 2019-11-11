@@ -452,6 +452,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="220dp" />
 
+                    <com.tuyenmonkey.mkloader.MKLoader
+                        android:id="@+id/loader"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:mk_color="@color/darkBlue"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"
+                        app:mk_type="LineSpinner" />
+
                     <LinearLayout
                         android:id="@+id/lnrNoGraph"
                         android:layout_width="wrap_content"

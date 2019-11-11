@@ -80,6 +80,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -224,6 +225,9 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
 
     @BindView(R.id.emptyBox)
     LinearLayout emptyBox;
+
+    @BindView(R.id.loader)
+    MKLoader mLoader;
 
 
     RecyclerView.LayoutManager layoutManager;
@@ -444,6 +448,7 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
 
     private void getGraphData() {
         if ((HomeActivity) getActivity() != null) {
+            mLoader.setVisibility(View.VISIBLE);
             RealmResults<LoginResponse> mloginRealmModel =
                     BaseApplication.getRealm().where(LoginResponse.class).findAll();
             if (mloginRealmModel != null && mloginRealmModel.size() > 0) {
@@ -516,7 +521,6 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     }
 
     private void setTasks() {
-
         ((GradientDrawable) auditOuter.getBackground()).setColor(Color.parseColor("#4682B4"));
         ((GradientDrawable) auditInner.getBackground()).setColor(Color.parseColor("#add8e6"));
 
@@ -531,7 +535,6 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
 
         lnrAudit.setOnClickListener(view -> replaceFragment(AuditFragment.newInstance(), "HomeFragment-AuditFragment"));
         lnrExpert.setOnClickListener(view -> replaceFragment(JobCardFragment.newInstance(), "HomeFragment-JobCardFragment"));
-
         lnrExpert.setOnClickListener(view -> getAnExpertRequest());
         lnrPayment.setOnClickListener(view -> replaceFragment(PaymentFragment.newInstance(), "HomeFragment-PaymentFragment"));
         lnrService.setOnClickListener(view -> replaceFragment(ServiceFragment.newInstance(), "HomeFragment-ServiceFragment"));
@@ -721,6 +724,7 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
         xAxis.setAxisMaximum(data.getXMax() + .5f);
         chart.setData(data);
         chart.invalidate();
+        mLoader.setVisibility(View.GONE);
     }
 
     private LineData generateLineData() {

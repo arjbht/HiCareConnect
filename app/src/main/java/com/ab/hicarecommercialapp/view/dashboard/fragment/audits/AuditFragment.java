@@ -409,7 +409,11 @@ public class AuditFragment extends BaseFragment implements AuditView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(nReceiver);
+        try {
+            getActivity().unregisterReceiver(nReceiver);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
