@@ -1,7 +1,6 @@
 package com.ab.hicarecommercialapp.view.dashboard.fragment;
 
 
-import android.animation.TimeInterpolator;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -9,7 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,10 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -36,32 +32,33 @@ import com.ab.hicarecommercialapp.BaseApplication;
 import com.ab.hicarecommercialapp.BaseFragment;
 import com.ab.hicarecommercialapp.R;
 
+import com.ab.hicarecommercialapp.adapter.RecyclerViewAuditAdapter;
 import com.ab.hicarecommercialapp.adapter.RecyclerViewServiceAdapter;
 import com.ab.hicarecommercialapp.adapter.RecyclerViewUpcomingAdapter;
 import com.ab.hicarecommercialapp.adapter.ViewPagerTodaysAdapter;
+import com.ab.hicarecommercialapp.model.audit.Audit;
 import com.ab.hicarecommercialapp.model.branch.Branch;
-import com.ab.hicarecommercialapp.model.expert.ExpertRequest;
-import com.ab.hicarecommercialapp.model.expert.ExpertResponse;
+import com.ab.hicarecommercialapp.model.graph.Dashboard;
 import com.ab.hicarecommercialapp.model.graph.GraphData;
 import com.ab.hicarecommercialapp.model.graph.GraphRequest;
 import com.ab.hicarecommercialapp.model.login.LoginResponse;
 import com.ab.hicarecommercialapp.model.service.MyServiceRequest;
+import com.ab.hicarecommercialapp.model.service.ServiceRequest;
 import com.ab.hicarecommercialapp.model.service.ServiceTasks;
 import com.ab.hicarecommercialapp.model.service.Service_Details;
 import com.ab.hicarecommercialapp.utils.AppUtils;
-import com.ab.hicarecommercialapp.utils.FixedSpeedScroller;
 import com.ab.hicarecommercialapp.utils.SharedPreferencesUtility;
+import com.ab.hicarecommercialapp.utils.TimeUtil;
+import com.ab.hicarecommercialapp.view.dashboard.DashboardPresenter;
+import com.ab.hicarecommercialapp.view.dashboard.DashboardView;
 import com.ab.hicarecommercialapp.view.dashboard.activity.HomeActivity;
 import com.ab.hicarecommercialapp.view.dashboard.fragment.audits.AuditFragment;
+import com.ab.hicarecommercialapp.view.dashboard.fragment.audits.AuditPresenter;
+import com.ab.hicarecommercialapp.view.dashboard.fragment.audits.AuditView;
 import com.ab.hicarecommercialapp.view.dashboard.fragment.complaints.ComplaintFragment;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.expert.ExpertPresenter;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.expert.ExpertView;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.invoices.InvoiceFragment;
 import com.ab.hicarecommercialapp.view.dashboard.fragment.jobcards.JobCardFragment;
 import com.ab.hicarecommercialapp.view.dashboard.fragment.payments.PaymentFragment;
 import com.ab.hicarecommercialapp.view.dashboard.fragment.services.ServiceFragment;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.services.ServicePresenter;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.services.ServiceView;
 import com.ab.hicarecommercialapp.view.dashboard.fragment.services.TodayServicePresenter;
 import com.ab.hicarecommercialapp.view.dashboard.fragment.services.TodayServiceView;
 import com.ab.hicarecommercialapp.view.dashboard.fragment.services.UpcomingServicePresenter;
@@ -79,32 +76,25 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.Period;
 
-import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends BaseFragment implements GraphView, TodayServiceView, UpcomingServiceView, ExpertView {
+public class HomeFragment extends BaseFragment implements AuditView, DashboardView, GraphView, TodayServiceView, UpcomingServiceView {
 
     @BindView(R.id.shimmerHome)
     LinearLayout shimmerHome;
@@ -214,6 +204,12 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     @BindView(R.id.txtDuration)
     TextView txtDuration;
 
+    @BindView(R.id.txtDayWise)
+    TextView txtDayWise;
+
+    @BindView(R.id.txtAuditDate)
+    TextView txtAuditDate;
+
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
@@ -229,11 +225,41 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     @BindView(R.id.loader)
     MKLoader mLoader;
 
+    @BindView(R.id.cardAudit)
+    CardView cardAudit;
+
+    @BindView(R.id.cardComplaints)
+    CardView cardComplaint;
+
+    @BindView(R.id.cardService)
+    CardView cardService;
+
+    @BindView(R.id.txtServices)
+    TextView txtServices;
+
+    @BindView(R.id.isService)
+    TextView isService;
+
+    @BindView(R.id.txtAudits)
+    TextView txtAudits;
+
+    @BindView(R.id.txtComplaints)
+    TextView txtComplaints;
+
+    @BindView(R.id.idService)
+            RelativeLayout idService;
+
+    @BindView(R.id.idComplaint)
+    RelativeLayout idComplaint;
+
+    @BindView(R.id.idAudit)
+    RelativeLayout idAudit;
 
     RecyclerView.LayoutManager layoutManager;
     private Integer pageNumber = 0;
     private RecyclerViewUpcomingAdapter adapter;
     private RecyclerViewServiceAdapter madapter;
+    private RecyclerViewAuditAdapter adapterAudit;
     int counterLeft = 0;
     int counterRight = 0;
     int counter;
@@ -245,6 +271,7 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     ArrayList<Entry> dataset1;
     ArrayList<BarEntry> dataset2;
     ArrayList<String> xAxisLabel;
+    ArrayList<Audit> auditRating;
 
     int currentPage = 0;
     int NUM_PAGES = 0;
@@ -255,7 +282,7 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     DateTime previous3 = current.minusMonths(2).dayOfMonth().withMinimumValue();
     DateTime previous6 = current.minusMonths(5).dayOfMonth().withMinimumValue();
     DateTime previousYear = current.minusYears(1).dayOfMonth().withMinimumValue();
-    SimpleDateFormat backFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat backFormat = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat frontFormat = new SimpleDateFormat("dd MMM, yyyy");
 
     List<GraphData> graphList = new ArrayList<>();
@@ -263,7 +290,7 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     RealmResults<Branch> mBranchRealmResults;
     ViewPagerTodaysAdapter pagerAdapter;
     private static boolean run = true;
-
+    private Timer timer;
 
 
     public HomeFragment() {
@@ -291,6 +318,11 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        scrollHome.smoothScrollTo(0, 0);
+        scrollHome.fullScroll(View.FOCUS_UP);
+        scrollHome.smoothScrollTo(0,0);
+        scrollHome.scrollTo(0,0);
+        timer = new Timer();
         adapter =
                 new RecyclerViewUpcomingAdapter(getActivity(), true);
         recycleOrders.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -307,21 +339,18 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
             todaysPager.setVisibility(View.GONE);
         }
 
-//        try {
-//            Field mScroller;
-//            mScroller = ViewPager.class.getDeclaredField("mScroller");
-//            mScroller.setAccessible(true);
-//            FixedSpeedScroller scroller = new FixedSpeedScroller(todaysPager.getContext(), sInterpolator);
-//            // scroller.setFixedDuration(5000);
-//            mScroller.set(todaysPager, scroller);
-//        } catch (NoSuchFieldException e) {
-//        } catch (IllegalArgumentException e) {
-//        } catch (IllegalAccessException e) {
-//        }
+        if (SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_SERVICE_DAY_WISE)) {
+            txtDayWise.setVisibility(View.VISIBLE);
+            isService.setText("Visits");
+        } else {
+            txtDayWise.setVisibility(View.GONE);
+            isService.setText("Services");
+        }
+
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.VISIBLE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.VISIBLE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.VISIBLE);
         dataset1 = new ArrayList<>();
         dataset2 = new ArrayList<>();
         xAxisLabel = new ArrayList<>();
@@ -333,56 +362,47 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
         btnViewMore.setOnClickListener(view123 -> replaceFragment(UpcomingServicesFragment.newInstance(), "HomeFragment-UpcomingServicesFragment"));
     }
 
-    private void getTodaysService() {
-
-        final Handler handler = new Handler();
-        Timer timer = new Timer();
-        final Runnable update = () -> {
-
-            todaysPager.setCurrentItem(currentPage, true);
-            if (currentPage == 3) {
-                currentPage = todaysPager.getCurrentItem() - 1;
-            } else {
-                ++currentPage;
-            }
-        };
-
-
-        timer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                handler.post(update);
-                if (run) {
-                    handler.post(update);
-                } else {
-                    timer.cancel();
-                    timer.purge();
-                }
-            }
-        }, 2000, 3000);
-        run = false;
-    }
-
 
     private void getTodaysServices() {
-        for (int i = 0; i <= 3; i++)
-            NUM_PAGES = 3;
-        final Handler handler = new Handler();
-        final Runnable Update = () -> {
-            if (currentPage == NUM_PAGES) {
-                currentPage = 0;
+        if ((HomeActivity) getActivity() != null) {
+            RealmResults<LoginResponse> mloginRealmModel =
+                    BaseApplication.getRealm().where(LoginResponse.class).findAll();
+            if (mloginRealmModel != null && mloginRealmModel.size() > 0) {
+                if (SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_ACCOUNT_THERE)) {
+                    MyServiceRequest request = new MyServiceRequest();
+                    String accountNo = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.ACCOUNT_ID);
+                    request.setAccountNo(accountNo);
+                    request.setUserId(mloginRealmModel.get(0).getUserId());
+                    request.setDataType("");
+                    request.setCaseNo("");
+                    request.setOrderNo("");
+                    request.setIsAdmin(Boolean.valueOf(mloginRealmModel.get(0).getIsAdmin()));
+                    request.setPageSize(0);
+                    request.setPageOffset(0);
+                    request.setMobileNo(mloginRealmModel.get(0).getMobile());
+                    TodayServicePresenter presenter = new TodayServicePresenter(this);
+                    presenter.getTodayServices(request);
+                } else {
+                    if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
+                        MyServiceRequest request = new MyServiceRequest();
+                        String accountNo = mBranchRealmResults.get(0).getAccountKey();
+                        request.setAccountNo(accountNo);
+                        request.setUserId(mloginRealmModel.get(0).getUserId());
+                        request.setDataType("");
+                        request.setCaseNo("");
+                        request.setOrderNo("");
+                        request.setIsAdmin(Boolean.valueOf(mloginRealmModel.get(0).getIsAdmin()));
+                        request.setPageSize(0);
+                        request.setPageOffset(0);
+                        request.setMobileNo(mloginRealmModel.get(0).getMobile());
+                        TodayServicePresenter presenter = new TodayServicePresenter(this);
+                        presenter.getTodayServices(request);
+                    }
+                }
+
             }
-            todaysPager.setCurrentItem(currentPage++, true);
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
-        onPause();
+        }
+
 
     }
 
@@ -390,7 +410,9 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     public void onResume() {
         super.onResume();
         setGraphByCalendar();
-//        getTodaysServices();
+        scrollHome.fullScroll(View.FOCUS_UP);
+        scrollHome.smoothScrollTo(0,0);
+        scrollHome.scrollTo(0,0);
     }
 
     private void setGraphByCalendar() {
@@ -398,8 +420,9 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
         type = "Month";
         eDate = backFormat.format(current.toDate());
         sDate = backFormat.format(previous6.toDate());
-
         getGraphData();
+        getAuditsCount();
+        getDashboardData();
 
         lnrWeeks.setOnClickListener(view -> {
             type = "Month";
@@ -413,6 +436,8 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
             sDate = backFormat.format(previous3.toDate());
             Log.e("CAL", sDate + " - " + eDate);
             getGraphData();
+            getAuditsCount();
+            getDashboardData();
         });
 
         lnrMonths.setOnClickListener(view -> {
@@ -427,6 +452,8 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
             sDate = backFormat.format(previous6.toDate());
             Log.e("CAL", sDate + " - " + eDate);
             getGraphData();
+            getAuditsCount();
+            getDashboardData();
         });
 
         lnrYears.setOnClickListener(view -> {
@@ -441,8 +468,70 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
             sDate = backFormat.format(previousYear.toDate());
             Log.e("CAL", sDate + " - " + eDate);
             getGraphData();
+            getAuditsCount();
+            getDashboardData();
         });
 
+    }
+
+    private void getAuditsCount() {
+        if ((HomeActivity) getActivity() != null) {
+            RealmResults<LoginResponse> mloginRealmModel =
+                    BaseApplication.getRealm().where(LoginResponse.class).findAll();
+            if (mloginRealmModel != null && mloginRealmModel.size() > 0) {
+                mBranchRealmResults = getRealm().where(Branch.class).findAll();
+                if (SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_ACCOUNT_THERE)) {
+                    String accountNo = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.ACCOUNT_ID);
+                    AuditPresenter presenter = new AuditPresenter(this);
+                    presenter.getCustomerAudit(accountNo, sDate, eDate);
+                } else {
+                    if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
+                        String accountNo = mBranchRealmResults.get(0).getAccountKey();
+                        AuditPresenter presenter = new AuditPresenter(this);
+                        presenter.getCustomerAudit(accountNo, sDate, eDate);
+                    }
+                }
+            }
+        }
+    }
+
+    private void getDashboardData() {
+        if ((HomeActivity) getActivity() != null) {
+            RealmResults<LoginResponse> mloginRealmModel =
+                    BaseApplication.getRealm().where(LoginResponse.class).findAll();
+            Boolean isServiceDayWise = SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_SERVICE_DAY_WISE);
+
+            if (mloginRealmModel != null && mloginRealmModel.size() > 0) {
+                if (SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_ACCOUNT_THERE)) {
+                    GraphRequest request = new GraphRequest();
+                    String accountNo = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.ACCOUNT_ID);
+                    request.setAccountNo(accountNo);
+                    request.setUserId(mloginRealmModel.get(0).getUserId());
+                    request.setReportType(type);
+                    request.setStartDate(sDate);
+                    request.setEndDate(eDate);
+                    request.setChildAccount(true);
+                    request.setShowServiceDayWise(isServiceDayWise);
+                    DashboardPresenter presenter = new DashboardPresenter(this);
+                    presenter.getDashboardData(request);
+                } else {
+                    if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
+                        String accountNo = mBranchRealmResults.get(0).getAccountKey();
+                        GraphRequest request = new GraphRequest();
+                        request.setAccountNo(accountNo);
+                        request.setUserId(mloginRealmModel.get(0).getUserId());
+                        request.setReportType(type);
+                        request.setStartDate(sDate);
+                        request.setEndDate(eDate);
+                        request.setChildAccount(true);
+                        request.setShowServiceDayWise(isServiceDayWise);
+                        DashboardPresenter presenter = new DashboardPresenter(this);
+                        presenter.getDashboardData(request);
+                    }
+                }
+
+            }
+        }
 
     }
 
@@ -456,10 +545,11 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
                     GraphRequest request = new GraphRequest();
                     String accountNo = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.ACCOUNT_ID);
                     request.setAccountNo(accountNo);
-                    request.setUserId(mloginRealmModel.get(0).getMobile());
+                    request.setUserId(mloginRealmModel.get(0).getUserId());
                     request.setReportType(type);
                     request.setStartDate(sDate);
                     request.setEndDate(eDate);
+                    request.setChildAccount(true);
                     GraphPresenter presenter = new GraphPresenter(this);
                     presenter.getGraphData(request);
                 } else {
@@ -467,10 +557,11 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
                         String accountNo = mBranchRealmResults.get(0).getAccountKey();
                         GraphRequest request = new GraphRequest();
                         request.setAccountNo(accountNo);
-                        request.setUserId(mloginRealmModel.get(0).getMobile());
+                        request.setUserId(mloginRealmModel.get(0).getUserId());
                         request.setReportType(type);
                         request.setStartDate(sDate);
                         request.setEndDate(eDate);
+                        request.setChildAccount(true);
                         GraphPresenter presenter = new GraphPresenter(this);
                         presenter.getGraphData(request);
                     }
@@ -524,41 +615,39 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
         ((GradientDrawable) auditOuter.getBackground()).setColor(Color.parseColor("#4682B4"));
         ((GradientDrawable) auditInner.getBackground()).setColor(Color.parseColor("#add8e6"));
 
-        ((GradientDrawable) expertOuter.getBackground()).setColor(Color.parseColor("#4682B4"));
-        ((GradientDrawable) expertInner.getBackground()).setColor(Color.parseColor("#add8e6"));
+        ((GradientDrawable) expertOuter.getBackground()).setColor(Color.parseColor("#F3CA64"));
+        ((GradientDrawable) expertInner.getBackground()).setColor(Color.parseColor("#FDF7E7"));
 
-        ((GradientDrawable) complaintOuter.getBackground()).setColor(Color.parseColor("#4682B4"));
-        ((GradientDrawable) complaintInner.getBackground()).setColor(Color.parseColor("#add8e6"));
+        ((GradientDrawable) complaintOuter.getBackground()).setColor(Color.parseColor("#D2A7DC"));
+        ((GradientDrawable) complaintInner.getBackground()).setColor(Color.parseColor("#F6EBF9"));
 
-        ((GradientDrawable) serviceOuter.getBackground()).setColor(Color.parseColor("#4682B4"));
-        ((GradientDrawable) serviceInner.getBackground()).setColor(Color.parseColor("#add8e6"));
+        ((GradientDrawable) serviceOuter.getBackground()).setColor(Color.parseColor("#6AC06D"));
+        ((GradientDrawable) serviceInner.getBackground()).setColor(Color.parseColor("#EDF7ED"));
 
-        lnrAudit.setOnClickListener(view -> replaceFragment(AuditFragment.newInstance(), "HomeFragment-AuditFragment"));
+        cardAudit.setOnClickListener(view -> replaceFragment(AuditFragment.newInstance(sDate, eDate), "HomeFragment-AuditFragment"));
         lnrExpert.setOnClickListener(view -> replaceFragment(JobCardFragment.newInstance(), "HomeFragment-JobCardFragment"));
-        lnrExpert.setOnClickListener(view -> getAnExpertRequest());
         lnrPayment.setOnClickListener(view -> replaceFragment(PaymentFragment.newInstance(), "HomeFragment-PaymentFragment"));
-        lnrService.setOnClickListener(view -> replaceFragment(ServiceFragment.newInstance(), "HomeFragment-ServiceFragment"));
-        lnrComplaint.setOnClickListener(view -> replaceFragment(ComplaintFragment.newInstance(), "HomeFragment-ComplaintFragment"));
-    }
+        cardService.setOnClickListener(view -> replaceFragment(ServiceFragment.newInstance(sDate, eDate), "HomeFragment-ServiceFragment"));
+        cardComplaint.setOnClickListener(view -> replaceFragment(ComplaintFragment.newInstance(), "HomeFragment-ComplaintFragment"));
 
-    private void getAnExpertRequest() {
-        if ((HomeActivity) getActivity() != null) {
-            if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
-                RealmResults<LoginResponse> mloginRealmModel =
-                        BaseApplication.getRealm().where(LoginResponse.class).findAll();
-                ExpertPresenter presenter = new ExpertPresenter(this);
-                ExpertRequest request = new ExpertRequest();
-                request.setUserId(mloginRealmModel.get(0).getUserId());
-                request.setAccountName(mBranchRealmResults.get(0).getAccountName());
-                request.setAccountNo(mBranchRealmResults.get(0).getAccountKey());
-                request.setEmail(mloginRealmModel.get(0).getEmail());
-                request.setTitle("");
-                request.setMobile(mloginRealmModel.get(0).getMobile());
-                request.setUserName(mloginRealmModel.get(0).getName());
-                presenter.getAnExpert(request);
-            }
-        }
-
+        idService.setOnClickListener(view -> {
+            SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.SHOW_GUIDE,
+                    false);
+            getActivity().findViewById(R.id.lnrGuide).setVisibility(View.GONE);
+            replaceFragment(ServiceFragment.newInstance(sDate, eDate), "HomeFragment-ServiceFragment");
+        });
+        idComplaint.setOnClickListener(view ->  {
+            SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.SHOW_GUIDE,
+                    false);
+            getActivity().findViewById(R.id.lnrGuide).setVisibility(View.GONE);
+            replaceFragment(ComplaintFragment.newInstance(), "HomeFragment-ComplaintFragment");
+        });
+        idAudit.setOnClickListener(view -> {
+            SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.SHOW_GUIDE,
+                    false);
+            getActivity().findViewById(R.id.lnrGuide).setVisibility(View.GONE);
+            replaceFragment(AuditFragment.newInstance(sDate, eDate), "HomeFragment-AuditFragment");
+        });
     }
 
 
@@ -575,28 +664,40 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     }
 
     @Override
-    public void setExpert(ExpertResponse response) {
-        if (response.getSuccess()) {
-            getSuccessDialog();
+    public void setAudits(List<Audit> audits) {
+        auditRating = new ArrayList<>();
+        String auditCount = String.valueOf(audits.size());
+        if (audits != null && audits.size() > 0) {
+            for (int i = 0; i < audits.size(); i++) {
+                if(!audits.get(i).getAuditRating().equalsIgnoreCase("No Rating has given for the Audit")){
+                    txtAuditDate.setVisibility(View.VISIBLE);
+                    txtAudits.setText(audits.get(i).getAuditRating());
+                    try {
+                        String date = TimeUtil.reFormatDateTime(audits.get(i).getAuditDate(),"MMM dd, yyyy");
+                        txtAuditDate.setText("("+date+")");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    txtAudits.setText("NA");
+                    txtAuditDate.setVisibility(View.GONE);
+                }
+            }
+
+        } else {
+            txtAudits.setText("NA");
+            txtAuditDate.setVisibility(View.GONE);
         }
     }
 
-    private void getSuccessDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogview = inflater.inflate(R.layout.layout_expert_dialog, null);
-        Button cancel = (Button) dialogview.findViewById(R.id.dialog_cancel);
-        builder.setView(dialogview);
-        builder.setCancelable(false);
-        final AlertDialog dialog = builder.create();
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-        dialog.show();
-
-        cancel.setOnClickListener(view -> {
-            dialog.cancel();
-        });
+    @Override
+    public void setDashboardData(Dashboard data) {
+        if (data != null) {
+            txtServices.setText(data.getTotalSRDelivered() + "/" + data.getTotalSRPlanned());
+            txtComplaints.setText(data.getTotalResolvedComplaint() + "/" + data.getTotalComplaint());
+        }
     }
+
 
     @Override
     public void setUpcomingService(List<ServiceTasks> upcomingServices) {
@@ -626,21 +727,48 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
 
     @Override
     public void setTodayService(List<Service_Details> services) {
+
         progressBar.setVisibility(View.GONE);
         if (services != null) {
-            lnrToday.setVisibility(View.VISIBLE);
+//            lnrToday.setVisibility(View.VISIBLE);
+            todaysPager.setVisibility(View.VISIBLE);
+
             if (pageNumber == 0 && services.size() > 0) {
-                madapter.setData(services);
-                madapter.notifyDataSetChanged();
+                todaysPager.setVisibility(View.VISIBLE);
+                pagerAdapter.setData(services);
+                pagerAdapter.notifyDataSetChanged();
+                setTimer(services.size());
             } else if (services.size() > 0) {
-                madapter.addData(services);
-                madapter.notifyDataSetChanged();
+                todaysPager.setVisibility(View.VISIBLE);
+                pagerAdapter.addData(services);
+                pagerAdapter.notifyDataSetChanged();
+                setTimer(services.size());
             } else {
                 pageNumber -= 5;
             }
         } else {
-            lnrToday.setVisibility(View.GONE);
+            todaysPager.setVisibility(View.GONE);
+//            lnrToday.setVisibility(View.GONE);
         }
+    }
+
+    private void setTimer(int size) {
+        for (int i = 0; i <= size; i++)
+            NUM_PAGES = size;
+        final Handler handler = new Handler();
+        final Runnable Update = () -> {
+            if (currentPage == NUM_PAGES) {
+                currentPage = 0;
+            }
+            todaysPager.setCurrentItem(currentPage++, true);
+        };
+        timer.scheduleAtFixedRate(new TimerTask() {
+                                      @Override
+                                      public void run() {
+                                          handler.post(Update);
+                                      }
+                                  },
+                3000, 3000);
     }
 
 
@@ -674,6 +802,10 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
         chart.setDoubleTapToZoomEnabled(false);
         chart.animateXY(2000, 2000);
 
+//        chart.getXAxis().setDrawGridLines(false);
+//        chart.getAxisLeft().setDrawGridLines(false);
+        chart.getAxisRight().setEnabled(false);
+
         Legend l = chart.getLegend();
         l.setWordWrapEnabled(true);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -682,16 +814,12 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
         l.setDrawInside(false);
 
         YAxis rightAxis = chart.getAxisRight();
-        rightAxis.setDrawGridLines(true);
+        rightAxis.setDrawGridLines(false);
         rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(true);
         leftAxis.setAxisMinimum(0f);
-//        leftAxis.setGranularity(2);
-//        leftAxis.setLabelCount(8, true);
-//        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-
         xAxisLabel.clear();
         dataset1.clear();
         dataset2.clear();
@@ -699,7 +827,6 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setEnabled(true);
-//        xAxis.setLabelRotationAngle(45);
         xAxis.setGranularityEnabled(true);
         xAxis.setCenterAxisLabels(false);
         xAxis.setAxisMinimum(0f);
@@ -751,6 +878,7 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
 
         BarData d = new BarData();
         d.setBarWidth(0.3f);
+
 //        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
 //        for (int index = 0; index < 8; index++)
@@ -758,6 +886,7 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
         try {
             BarDataSet set = new BarDataSet(dataset2, "Actual");
             set.setColors(getResources().getColor(R.color.fade_blue));
+//            set.setColors(ColorTemplate.JOYFUL_COLORS);
             set.setHighlightEnabled(false);
 //        set.setValueTextSize(8f);
             set.setDrawValues(false);
@@ -774,7 +903,20 @@ public class HomeFragment extends BaseFragment implements GraphView, TodayServic
     @Override
     public void onPause() {
         super.onPause();
-//        swipeTimer.cancel();
-//        swipeTimer.purge();
+        try {
+            timer.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            timer.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

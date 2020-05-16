@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:text="LOGIN"
+            android:text="@string/login"
             android:textColor="@color/black"
             android:textSize="22dp"
             android:visibility="gone" />
@@ -72,7 +72,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_send_otp" />
+                            />
 
                     </LinearLayout>
 
@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="Mobile Number"
+                        android:text="@string/mobile_number"
                         android:textColor="@color/colorPrimary"
                         android:textSize="22sp" />
 
@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="We will send you a One Time Password on your phone number"
+                        android:text="@string/we_will_send_you_a_one_time_password_on_your_phone_number"
                         android:textColor="@color/colorPrimary"
                         android:textSize="15sp" />
 
@@ -112,7 +112,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_mobile" />
+                                app:srcCompat="@drawable/ic_mobile" />
 
                             <View
                                 android:layout_width="1dp"
@@ -128,11 +128,12 @@
                                 android:layout_height="match_parent"
                                 android:background="@null"
                                 android:inputType="number"
+                                android:imeOptions="actionDone"
                                 android:textCursorDrawable="@drawable/cursor"
                                 android:lineSpacingMultiplier="1.2"
                                 android:ems="10"
                                 android:maxLength="10"
-                                android:hint="Mobile number"
+                                android:hint="@string/mobile_number_s"
                                 android:textColor="@color/colorPrimary" />
                         </LinearLayout>
 
@@ -150,9 +151,9 @@
                         android:layout_marginRight="20dp"
                         android:background="@drawable/btn_blue_border"
                         android:elevation="2dp"
-                        android:text="PROCEED"
+                        android:text="@string/proceed"
                         android:textColor="@color/white"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -177,26 +178,6 @@
             android:visibility="gone"
             app:mk_type="LineSpinner" />
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/colorPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Help and Support"
-                android:textColor="@color/colorPrimary" />
-
-        </RelativeLayout>
 
 
     </RelativeLayout>

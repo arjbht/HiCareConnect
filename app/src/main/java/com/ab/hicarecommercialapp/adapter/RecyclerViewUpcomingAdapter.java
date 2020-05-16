@@ -3,6 +3,7 @@ package com.ab.hicarecommercialapp.adapter;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,7 @@ public class RecyclerViewUpcomingAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemCount() {
-        if (isTrue && items.size() == 3) {
+        if (isTrue && items.size() >=3) {
             return 3;
         } else {
             return items.size();

@@ -1,11 +1,8 @@
 package com.ab.hicarecommercialapp.view.dashboard.fragment.complaints;
 
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,7 +12,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +23,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ab.hicarecommercialapp.BaseApplication;
 import com.ab.hicarecommercialapp.BaseFragment;
@@ -37,28 +31,20 @@ import com.ab.hicarecommercialapp.model.branch.Branch;
 import com.ab.hicarecommercialapp.model.complaint.Attachment;
 import com.ab.hicarecommercialapp.model.complaint.ComplaintAttachmentRequest;
 import com.ab.hicarecommercialapp.model.complaint.ComplaintAttachmentResponse;
-import com.ab.hicarecommercialapp.model.complaint.ComplaintRequest;
-import com.ab.hicarecommercialapp.model.complaint.Complaints;
 import com.ab.hicarecommercialapp.model.complaint.CreateComplaintRequest;
 import com.ab.hicarecommercialapp.model.complaint.CreateComplaintResponse;
 import com.ab.hicarecommercialapp.model.login.LoginResponse;
 import com.ab.hicarecommercialapp.utils.AppUtils;
 import com.ab.hicarecommercialapp.utils.SharedPreferencesUtility;
 import com.ab.hicarecommercialapp.view.dashboard.activity.HomeActivity;
-import com.squareup.picasso.Picasso;
 import com.tuyenmonkey.mkloader.MKLoader;
-import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
-import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,6 +130,9 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
     @BindView(R.id.cardPhoto5)
     CardView cardPhoto5;
 
+    @BindView(R.id.lnrType)
+    LinearLayout lnrType;
+
     @BindView(R.id.imageCancel1)
     ImageButton imageCancel1;
 
@@ -159,6 +148,9 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
     @BindView(R.id.imageCancel5)
     ImageButton imageCancel5;
 
+    private static final String ARG_TITLE = "ARG_TITLE";
+    private static final String ARG_SOS = "ARG_SOS";
+
     private ArrayList<Attachment> imageItem = null;
 
     private ArrayList<String> urlList = null;
@@ -173,16 +165,31 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
     private Bitmap bitmap;
     private File imgFile;
     String encodedImage = "";
+    private String title = "";
+    private boolean isSOS = false;
 
     public CreateComplaintFragment() {
         // Required empty public constructor
     }
 
-    public static CreateComplaintFragment newInstance() {
+    public static CreateComplaintFragment newInstance(String title, boolean isSOS) {
         Bundle args = new Bundle();
+        args.putString(ARG_TITLE, title);
+        args.putBoolean(ARG_SOS, isSOS);
         CreateComplaintFragment fragment = new CreateComplaintFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            title = getArguments().getString(ARG_TITLE);
+            isSOS = getArguments().getBoolean(ARG_SOS);
+            getActivity().setTitle(title);
+
+        }
     }
 
     @Override
@@ -190,8 +197,15 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_complaint, container, false);
         ButterKnife.bind(this, view);
-        getActivity().setTitle("Lodge Complaint");
+        if (isSOS) {
+            lnrType.setVisibility(View.GONE);
+        } else {
+            lnrType.setVisibility(View.VISIBLE);
+        }
         showBackButton(true);
+        getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.GONE);
         return view;
     }
 
@@ -262,7 +276,11 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
                         request.setRemarks(edtComment.getText().toString());
                         request.setComplaintId(0);
                         request.setUserId(userId);
-                        request.setComplaintType(Type);
+                        if (isSOS) {
+                            request.setComplaintType("SOS");
+                        } else {
+                            request.setComplaintType(Type);
+                        }
                         request.setAttachment("");
                         request.setAccountName(companyName);
                         request.setUserName(userName);
@@ -271,7 +289,11 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
                         request.setEmail(email);
                         request.setFreshdeskTicketId("");
                         CreateComplaintPresenter presenter = new CreateComplaintPresenter(this);
-                        presenter.getCreateComplaint(request);
+                        if (isSOS) {
+                            presenter.getCreateSOSComplaint(request);
+                        } else {
+                            presenter.getCreateComplaint(request);
+                        }
                     } else {
                         mBranchRealmResults = getRealm().where(Branch.class).findAll();
                         if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
@@ -284,7 +306,11 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
                             request.setRemarks(edtComment.getText().toString());
                             request.setComplaintId(0);
                             request.setUserId(userId);
-                            request.setComplaintType(Type);
+                            if (isSOS) {
+                                request.setComplaintType("SOS");
+                            } else {
+                                request.setComplaintType(Type);
+                            }
                             request.setAttachment("");
                             request.setAccountName(companyName);
                             request.setUserName(userName);
@@ -293,8 +319,11 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
                             request.setEmail(email);
                             request.setFreshdeskTicketId("");
                             CreateComplaintPresenter presenter = new CreateComplaintPresenter(this);
-                            presenter.getCreateComplaint(request);
-
+                            if (isSOS) {
+                                presenter.getCreateSOSComplaint(request);
+                            } else {
+                                presenter.getCreateComplaint(request);
+                            }
                         }
                     }
                 }
@@ -433,9 +462,7 @@ public class CreateComplaintFragment extends BaseFragment implements ComplaintTy
     }
 
     private void complaintSuccessDialog() {
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         LayoutInflater inflater = getLayoutInflater();
         View dialogview = inflater.inflate(R.layout.layout_complaint_dialog, null);
         Button cancel = (Button) dialogview.findViewById(R.id.dialog_cancel);

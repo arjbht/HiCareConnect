@@ -38,7 +38,7 @@
                  android:layout_height="wrap_content"
                  android:gravity="center"
                  android:layout_weight="1"
-                 android:text="2019"/>
+                />
 
                 <TextView
                     android:id="@+id/txtDay"
@@ -48,7 +48,7 @@
                     android:textColor="@color/colorPrimary"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="29"/>
+                    />
 
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="OCT"/>
+                   />
 
 
             </LinearLayout>
@@ -77,10 +77,10 @@
                     android:ellipsize="end"
                     android:lineSpacingMultiplier="1.2"
                     android:singleLine="true"
-                    android:text="CMS 3 Services 1 Year - Residential"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginStart="5dp" />
 
                 <LinearLayout
                     android:id="@+id/lnrCompletion"
@@ -124,8 +124,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
-                            android:text="CMS"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:layout_marginStart="5dp" />
 
                     </LinearLayout>
 
@@ -146,7 +146,7 @@
                         <TextView
                             android:layout_width="95dp"
                             android:layout_height="match_parent"
-                            android:text="Order No."
+                            android:text="@string/order_no"
                             android:textColor="@color/colorPrimary"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -173,8 +173,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
-                            android:text="12345546"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:layout_marginStart="5dp" />
 
                     </LinearLayout>
 
@@ -197,7 +197,6 @@
                             android:layout_width="97dp"
                             android:layout_height="match_parent"
                             android:text="Service Step"
-
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -223,7 +222,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
-                            android:text="Treatment"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -244,7 +242,7 @@
                         <TextView
                             android:layout_width="95dp"
                             android:layout_height="match_parent"
-                            android:text="Service Count"
+                            android:text="@string/service_count"
                             android:textColor="@color/colorPrimary"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -270,7 +268,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
-                            android:text="22/312"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -329,7 +326,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="VIEW DETAILS"
+                                android:text="@string/view_details"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="14sp" />
 
@@ -361,8 +358,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:textColor="@color/colorPrimary"
-                    android:text="Incomplete"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
                 <ImageView
                     android:id="@+id/imgArrow"
@@ -371,7 +367,7 @@
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:layout_weight="2"
-                    android:src="@drawable/ic_chevron_arrow_up"
+                    app:srcCompat="@drawable/ic_chevron_arrow_up"
                     android:visibility="gone" />
 
             </RelativeLayout>

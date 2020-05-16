@@ -28,6 +28,7 @@ import com.ab.hicarecommercialapp.location_service.listner.LocationManagerListne
 import com.ab.hicarecommercialapp.model.login.LoginResponse;
 import com.ab.hicarecommercialapp.model.register_user.RegisterRequest;
 import com.ab.hicarecommercialapp.model.register_user.RegisterResponse;
+import com.ab.hicarecommercialapp.utils.AppSignatureHelper;
 import com.ab.hicarecommercialapp.utils.AppUtils;
 import com.ab.hicarecommercialapp.utils.SharedPreferencesUtility;
 import com.ab.hicarecommercialapp.utils.notification.OneSIgnalHelper;
@@ -87,6 +88,7 @@ public class SignUpFragment extends BaseFragment implements SignUpView, LoginVie
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         if (((LoginActivity) getActivity()).getmLocation() != null) {
             btnSignUp.setOnClickListener(view1 -> getSignUp());
         } else {

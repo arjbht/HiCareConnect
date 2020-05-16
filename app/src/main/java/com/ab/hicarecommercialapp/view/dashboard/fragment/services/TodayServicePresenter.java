@@ -2,6 +2,7 @@ package com.ab.hicarecommercialapp.view.dashboard.fragment.services;
 
 import com.ab.hicarecommercialapp.BaseApplication;
 import com.ab.hicarecommercialapp.model.service.MyServiceRequest;
+import com.ab.hicarecommercialapp.model.service.ServiceRequest;
 import com.ab.hicarecommercialapp.model.service.ServiceResponse;
 
 import retrofit2.Call;

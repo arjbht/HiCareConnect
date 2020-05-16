@@ -89,8 +89,8 @@ public class ServiceDetailsFragment extends BaseFragment implements ServiceView 
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.GONE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
         adapter = new RecyclerViewOrderServicesAdapter(getActivity(), false);
         recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycleView.setHasFixedSize(true);

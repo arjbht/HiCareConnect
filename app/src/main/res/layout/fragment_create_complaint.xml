@@ -23,40 +23,51 @@
                 android:layout_marginRight="20dp"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/lnrType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="Complaint Type"
-                    android:textColor="@color/colorPrimary" />
+                    android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:background="@drawable/btn_border"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/spnType"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:clickable="true"
-                        android:ems="10"
-                        android:popupBackground="@color/colorTextDrawerSecondary"
-                        android:spinnerMode="dialog"
-                        android:textSize="20sp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/complaint_type"
+                        android:textColor="@color/colorPrimary" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/btn_border"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spnType"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:clickable="true"
+                            android:ems="10"
+                            android:popupBackground="@color/colorTextDrawerSecondary"
+                            android:spinnerMode="dialog"
+                            android:textSize="20sp"
+                            android:focusable="true" />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
+
+
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Title"
+                    android:text="@string/title"
                     android:textColor="@color/colorPrimary" />
 
                 <LinearLayout
@@ -75,6 +86,7 @@
                         android:background="@null"
                         android:ems="10"
                         android:inputType="text"
+                        android:imeOptions="actionNext"
                         android:lineSpacingMultiplier="1.2"
                         android:textColor="@color/black"
                         android:textCursorDrawable="@drawable/cursor" />
@@ -87,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Description"
+                    android:text="@string/description"
                     android:textColor="@color/colorPrimary" />
 
                 <LinearLayout
@@ -108,6 +120,7 @@
                         android:lineSpacingMultiplier="1.2"
                         android:lines="8"
                         android:maxLines="10"
+                        android:imeOptions="actionDone"
                         android:minLines="6"
                         android:scrollbars="vertical"
                         android:textColor="@color/black"
@@ -131,7 +144,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="5dp"
-                android:text="Add Photocopy"
+                android:text="@string/add_photocopy"
                 android:textColor="@color/colorPrimary" />
 
             <LinearLayout
@@ -166,7 +179,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_add_image"
+                            app:srcCompat="@drawable/ic_add_image"
                             />
 
                         <androidx.cardview.widget.CardView
@@ -183,7 +196,7 @@
                                 android:layout_height="match_parent"
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/sample" />
+                                />
 
                         </androidx.cardview.widget.CardView>
 
@@ -194,9 +207,9 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_alignParentRight="true"
-                        android:elevation="10dp"
                         android:visibility="gone"
-                        android:src="@drawable/ic_delete"/>
+                        app:srcCompat="@drawable/ic_delete"
+                        android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
 
@@ -219,12 +232,12 @@
                         android:layout_gravity="center"
                         android:gravity="center">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgAdd2"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_add_image" />
+                            app:srcCompat="@drawable/ic_add_image" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardPhoto2"
@@ -240,7 +253,7 @@
                                 android:layout_height="match_parent"
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/sample" />
+                                />
 
                         </androidx.cardview.widget.CardView>
 
@@ -251,9 +264,8 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_alignParentRight="true"
-                        android:elevation="10dp"
                         android:visibility="gone"
-                        android:src="@drawable/ic_delete"/>
+                        app:srcCompat="@drawable/ic_delete"/>
 
                 </RelativeLayout>
 
@@ -279,7 +291,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_add_image" />
+                            app:srcCompat="@drawable/ic_add_image" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardPhoto3"
@@ -289,13 +301,13 @@
                             app:cardCornerRadius="10dp"
                             android:visibility="gone">
 
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imgPhoto3"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/sample" />
+                                 />
 
                         </androidx.cardview.widget.CardView>
 
@@ -306,9 +318,8 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_alignParentRight="true"
-                        android:elevation="10dp"
                         android:visibility="gone"
-                        android:src="@drawable/ic_delete"/>
+                        app:srcCompat="@drawable/ic_delete"/>
 
                 </RelativeLayout>
 
@@ -334,7 +345,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_add_image" />
+                            app:srcCompat="@drawable/ic_add_image" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardPhoto4"
@@ -344,13 +355,13 @@
                             app:cardCornerRadius="10dp"
                             android:visibility="gone">
 
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imgPhoto4"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/sample" />
+                                />
 
                         </androidx.cardview.widget.CardView>
 
@@ -363,7 +374,7 @@
                         android:layout_alignParentRight="true"
                         android:elevation="10dp"
                         android:visibility="gone"
-                        android:src="@drawable/ic_delete"/>
+                        app:srcCompat="@drawable/ic_delete"/>
 
                 </RelativeLayout>
 
@@ -384,12 +395,12 @@
                         android:layout_gravity="center"
                         android:gravity="center">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgAdd5"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_add_image" />
+                            app:srcCompat="@drawable/ic_add_image" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardPhoto5"
@@ -399,13 +410,13 @@
                             app:cardCornerRadius="10dp"
                             android:visibility="gone">
 
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imgPhoto5"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:adjustViewBounds="true"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/sample" />
+                                />
 
                         </androidx.cardview.widget.CardView>
 
@@ -418,7 +429,7 @@
                         android:layout_alignParentRight="true"
                         android:elevation="10dp"
                         android:visibility="gone"
-                        android:src="@drawable/ic_delete"/>
+                        app:srcCompat="@drawable/ic_delete"/>
 
                 </RelativeLayout>
 
@@ -434,7 +445,6 @@
                 android:ellipsize="middle"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="hifaeihfersf fwcw4w f4f4.jp"
                 android:textColor="@color/colorPrimary"
                 android:visibility="gone" />
 
@@ -446,7 +456,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/btn_blue_border"
-                android:text="Lodge Complaint"
+                android:text="@string/lodge_complaint"
                 android:textColor="@color/white" />
 
 

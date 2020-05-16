@@ -4,6 +4,7 @@ package com.ab.hicarecommercialapp.view.login;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -16,20 +17,33 @@ import androidx.fragment.app.Fragment;
 
 import android.telephony.TelephonyManager;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ab.hicarecommercialapp.BaseFragment;
 import com.ab.hicarecommercialapp.R;
+import com.ab.hicarecommercialapp.handler.OtpReceivedInterface;
 import com.ab.hicarecommercialapp.model.login.LoginResponse;
 import com.ab.hicarecommercialapp.model.login.VerifyUserResponse;
+import com.ab.hicarecommercialapp.utils.AppSignatureHelper;
 import com.ab.hicarecommercialapp.utils.AppUtils;
+import com.ab.hicarecommercialapp.utils.SMSListener;
 import com.ab.hicarecommercialapp.utils.SharedPreferencesUtility;
 import com.ab.hicarecommercialapp.utils.notification.OneSIgnalHelper;
 import com.ab.hicarecommercialapp.view.dashboard.activity.HomeActivity;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.mukesh.OtpView;
 import com.tuyenmonkey.mkloader.MKLoader;
 
@@ -39,7 +53,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VerifyFragment extends BaseFragment implements LoginView, VerifyUserView {
+public class VerifyFragment extends BaseFragment implements LoginView, VerifyUserView, OtpReceivedInterface,  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     @BindView(R.id.otp_view)
     OtpView edtOtp;
@@ -58,18 +72,23 @@ public class VerifyFragment extends BaseFragment implements LoginView, VerifyUse
 
     private static final String ARG_MOBILE = "ARG_MOBILE";
     private static final String ARG_PASSWORD = "ARG_PASSWORD";
+    private static final String ARG_OTP = "ARG_OTP";
     private String mobile = "";
     private String password = "";
+    private String otp = "";
     private static final int LOGIN_REQUEST = 1000;
+    private SMSListener mSmsBroadcastReceiver;
+    private GoogleApiClient mGoogleApiClient;
 
     public VerifyFragment() {
         // Required empty public constructor
     }
 
-    public static VerifyFragment newInstance(String mobile, String userPassword) {
+    public static VerifyFragment newInstance(String mobile, String userPassword, String loginOtp) {
         Bundle args = new Bundle();
         args.putString(ARG_MOBILE, mobile);
         args.putString(ARG_PASSWORD, userPassword);
+        args.putString(ARG_OTP, loginOtp);
         VerifyFragment fragment = new VerifyFragment();
         fragment.setArguments(args);
         return fragment;
@@ -81,6 +100,7 @@ public class VerifyFragment extends BaseFragment implements LoginView, VerifyUse
         if (getArguments() != null) {
             mobile = getArguments().getString(ARG_MOBILE);
             password = getArguments().getString(ARG_PASSWORD);
+            otp = getArguments().getString(ARG_OTP);
         }
     }
 
@@ -90,6 +110,21 @@ public class VerifyFragment extends BaseFragment implements LoginView, VerifyUse
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_verify, container, false);
         ButterKnife.bind(this, view);
+        AppSignatureHelper appSignatureHelper = new AppSignatureHelper(getActivity());
+        appSignatureHelper.getAppSignatures();
+        mSmsBroadcastReceiver = new SMSListener();
+        //set google api client for hint request
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .addConnectionCallbacks(this)
+                .enableAutoManage(getActivity(), this)
+                .addApi(Auth.CREDENTIALS_API)
+                .build();
+
+        mSmsBroadcastReceiver.setOnOtpListeners(VerifyFragment.this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION);
+        getActivity().registerReceiver(mSmsBroadcastReceiver, intentFilter);
+        startSMSListener();
         return view;
     }
 
@@ -105,7 +140,26 @@ public class VerifyFragment extends BaseFragment implements LoginView, VerifyUse
             presenter.getUserVerified(mobile, code, true);
         });
 
-        btnVerify.setOnClickListener(view12 -> getUserVerified());
+        btnVerify.setOnClickListener(view13 -> {
+            if (isOtpVerified()) {
+                if (edtOtp.getText().toString().equals(otp)) {
+                    getUserVerified();
+                } else {
+                    Toast.makeText(getActivity(), "Invalid OTP!", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                startSMSListener();
+            }
+        });
+    }
+
+    private boolean isOtpVerified() {
+        if (edtOtp.getText().toString().length() < 4) {
+            Toast.makeText(getActivity(), "Invalid OTP!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void getUserVerified() {
@@ -155,7 +209,8 @@ public class VerifyFragment extends BaseFragment implements LoginView, VerifyUse
     @Override
     public void setVerifyUserResponse(VerifyUserResponse response) {
         if (response.getSuccess()) {
-
+            otp = response.getData().getLoginOtp();
+            startSMSListener();
         }
     }
 
@@ -180,5 +235,41 @@ public class VerifyFragment extends BaseFragment implements LoginView, VerifyUse
     @Override
     public void onErrorLoading(String message) {
         AppUtils.showDialogMessage(getActivity(), "Error", message);
+    }
+
+    @Override
+    public void onOtpReceived(String otp) {
+        Log.e("Otp Received", otp);
+        edtOtp.setText(otp);
+        if (edtOtp.length() == 4) {
+            getUserVerified();
+        }
+    }
+
+    public void startSMSListener() {
+        SmsRetrieverClient mClient = SmsRetriever.getClient(getActivity());
+        Task<Void> mTask = mClient.startSmsRetriever();
+        mTask.addOnSuccessListener(aVoid -> Log.e("TAG_OTP", "SMS Retriever starts"));
+        mTask.addOnFailureListener(e -> Log.e("TAG_OTP", "Error"));
+    }
+
+    @Override
+    public void onOtpTimeout() {
+        Log.e("TAG_OTP", "Time out, please resend");
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

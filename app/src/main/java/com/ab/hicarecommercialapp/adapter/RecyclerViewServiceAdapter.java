@@ -55,6 +55,7 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
         holder.txtService.setText(items.get(position).getService_Plan__c());
         String srCount = String.valueOf(items.get(position).getTotalSRCount());
         holder.txtSequence.setText(String.valueOf((int) items.get(position).getSequence_No()) + "/" + srCount);
+        holder.txtOrderNo.setText(items.get(position).getOrder_Number__c());
         String status = items.get(position).getStatus();
         if (status.equalsIgnoreCase("Open")) {
             holder.txtStatus.setTextColor(Color.parseColor("#0E8C3A"));

@@ -19,7 +19,7 @@ public class BranchResponse extends RealmObject {
     private Boolean IsSuccess;
     @SerializedName("Message")
     @Expose
-    private String message = null;
+    private String message;
     @SerializedName("Data")
     @Expose
     private RealmList<Branch> data = null;

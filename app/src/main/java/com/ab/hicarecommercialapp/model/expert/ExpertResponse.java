@@ -15,10 +15,10 @@ public class ExpertResponse {
     private Boolean IsSuccess;
     @SerializedName("Message")
     @Expose
-    private String message = null;
+    private String message;
     @SerializedName("Data")
     @Expose
-    private Boolean data = null;
+    private Boolean data;
 
     public Boolean getSuccess() {
         return IsSuccess;

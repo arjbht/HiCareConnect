@@ -15,9 +15,11 @@
     <color name="green">#0E8C3A</color>
     <color name="purple">#78008A</color>
     <color name="orange">#E56B00</color>
+    <color name="deepOrange">#ff9f00</color>
     <color name="pink">#E5A400</color>
     <color name="colorAccentTransparent">#504682B4</color>
     <color name="colorAccentOrange">#FF5722</color>
+    <color name="lightOrange">#FF9C5B</color>
     <color name="colorAccentDrawerPrimaryDark">#24272c</color>
     <color name="colorAccentDrawerPrimary">#27313d</color>
     <color name="colorAccentDrawerPrimaryLight">#424951</color>
@@ -40,7 +42,18 @@
     <color name="smoke_gray">#F5F5F5</color>
     <color name="redlight">#ff726f</color>
     <color name="redDark">#f70d1a</color>
+    <color name="red">#ff0000</color>
     <color name="shimmer">#DFDFDF</color>
     <color name="colorBackground">#F4F7F7</color>
 
+    <!--Task colors-->
+
+    <color name="innerYellow">#FDF7E7</color>
+    <color name="outerYellow">#F3CA64</color>
+
+    <color name="innerPurple">#F6EBF9</color>
+    <color name="outerPurple">#D2A7DC</color>
+
+    <color name="innerGreen">#EDF7ED</color>
+    <color name="outerGreen">#6AC06D</color>
 </resources>

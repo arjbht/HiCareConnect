@@ -34,6 +34,7 @@ import com.ab.hicarecommercialapp.view.dashboard.fragment.jobcards.JobCardPresen
 import com.ab.hicarecommercialapp.view.login.LoginPresenter;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,6 +60,8 @@ public class OrderFragment extends BaseFragment implements OrderView {
     private RecyclerViewOrderAdapter adapter;
     RealmResults<Branch> mBranchRealmResults;
 
+    private List<Orders> oList = new ArrayList<>();
+
     public OrderFragment() {
         // Required empty public constructor
     }
@@ -70,7 +73,6 @@ public class OrderFragment extends BaseFragment implements OrderView {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class OrderFragment extends BaseFragment implements OrderView {
         ButterKnife.bind(this, view);
         getActivity().setTitle("Orders");
         showBackButton(false);
+
         return view;
     }
 
@@ -87,8 +90,8 @@ public class OrderFragment extends BaseFragment implements OrderView {
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.VISIBLE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.VISIBLE);
         adapter =
                 new RecyclerViewOrderAdapter(getActivity());
         recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -106,7 +109,7 @@ public class OrderFragment extends BaseFragment implements OrderView {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0 && isLastItemDisplaying(recycleView)) {
-                    pageNumber += 10;
+                    pageNumber += 10 ;
                     progressBar.setVisibility(View.VISIBLE);
                     getOrders();
                 }
@@ -118,6 +121,23 @@ public class OrderFragment extends BaseFragment implements OrderView {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        pageNumber = 0;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        pageNumber = 0;
     }
 
     private boolean isLastItemDisplaying(RecyclerView recyclerView) {
@@ -210,11 +230,9 @@ public class OrderFragment extends BaseFragment implements OrderView {
             } else {
                 pageNumber -= 10;
             }
-            adapter.setOnItemClickListener((view, position) -> replaceFragment(OrderDetailsFragment.newInstance(orders.get(position)), "OrderFragment - OrderDetailsFragment"));
+            adapter.setOnItemClickListener((view, position) -> replaceFragment(OrderDetailsFragment.newInstance(adapter.getItem(position)), "OrderFragment - OrderDetailsFragment"));
         }
-
     }
-
     @Override
     public void onErrorLoading(String message) {
         AppUtils.showDialogMessage(getActivity(), "Error ", message);

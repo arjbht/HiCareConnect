@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -17,7 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.ab.hicarecommercialapp.R;
-import com.devs.vectorchildfinder.VectorChildFinder;
+import com.ab.hicarecommercialapp.model.branch.Branch;
+import com.ab.hicarecommercialapp.model.notification.Notifications;
+import com.ab.hicarecommercialapp.utils.TimeUtil;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,12 +34,14 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewNotificationAdapter extends RecyclerView.Adapter<RecyclerViewNotificationAdapter.RecyclerViewHolder> {
 
-    //    private List<Categories.Category> categories;
+    private List<Notifications> items;
     private Activity context;
 
     //    private static ClickListener clickListener;
     public RecyclerViewNotificationAdapter(/*List<Categories.Category> categories,*/  FragmentActivity activity) {
-//        this.categories = categories;
+        if (items == null) {
+            items = new ArrayList();
+        }
         this.context = activity;
     }
 
@@ -46,35 +55,39 @@ public class RecyclerViewNotificationAdapter extends RecyclerView.Adapter<Recycl
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewNotificationAdapter.RecyclerViewHolder holder, int position) {
-//        Drawable unwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_notify_bell);
-//        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-//
-//        if (position % 7 == 0) {
-//            DrawableCompat.setTint(wrappedDrawable, Color.YELLOW);
-//        } else if (position % 7 == 1) {
-//            DrawableCompat.setTint(wrappedDrawable, Color.BLUE);
-//        } else if (position % 7 == 2) {
-//            DrawableCompat.setTint(wrappedDrawable, Color.parseColor("#E56B00"));
-//        } else if (position % 7 == 3) {
-//            DrawableCompat.setTint(wrappedDrawable, Color.parseColor("#F4A200"));
-//        } else if (position % 7 == 4) {
-//            DrawableCompat.setTint(wrappedDrawable, Color.parseColor("#78008A"));
-//        } else if (position % 7 == 5) {
-//            DrawableCompat.setTint(wrappedDrawable, Color.YELLOW);
-//        } else if (position % 7 == 6) {
-//            DrawableCompat.setTint(wrappedDrawable, Color.parseColor("#E56B00"));
-//        }
+        holder.txtTitle.setText(items.get(position).getTitle());
+        holder.txtDescription.setText(items.get(position).getDescription());
+        String date = items.get(position).getNotification_DateTime();
+        try {
+            holder.txtDate.setText(TimeUtil.reFormatDate(date, "MMM dd, yyyy"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setData(List<Notifications> data) {
+        items.clear();
+        items.addAll(data);
     }
 
 
     @Override
     public int getItemCount() {
-        return 8;
+        return items.size();
     }
 
     static class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.imgNotification)
         ImageView imgNotification;
+
+        @BindView(R.id.txtTitle)
+        TextView txtTitle;
+
+        @BindView(R.id.txtDescription)
+        TextView txtDescription;
+
+        @BindView(R.id.txtDate)
+        TextView txtDate;
 
         RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);

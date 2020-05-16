@@ -31,6 +31,7 @@ public class VerifyUserPresenter {
 
                         if (response.isSuccessful() && response.body() != null) {
                             view.setVerifyUserResponse(response.body());
+
                         } else {
                             view.onErrorLoading(response.message());
                         }

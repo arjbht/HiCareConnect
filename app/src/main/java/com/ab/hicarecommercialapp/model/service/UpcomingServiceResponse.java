@@ -12,7 +12,7 @@ public class UpcomingServiceResponse {
     @SerializedName("IsSuccess") @Expose
     private Boolean IsSuccess;
     @SerializedName("Message") @Expose
-    private String message = null;
+    private String message;
     @SerializedName("Data") @Expose
     private List<ServiceTasks> data = null;
 

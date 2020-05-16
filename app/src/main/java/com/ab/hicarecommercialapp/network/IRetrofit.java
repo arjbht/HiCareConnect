@@ -10,24 +10,29 @@ import com.ab.hicarecommercialapp.model.complaint.ComplaintInteractionResponse;
 import com.ab.hicarecommercialapp.model.complaint.ComplaintRequest;
 import com.ab.hicarecommercialapp.model.complaint.ComplaintResponse;
 import com.ab.hicarecommercialapp.model.complaint.ComplaintTypeResponse;
-import com.ab.hicarecommercialapp.model.complaint.Complaints;
 import com.ab.hicarecommercialapp.model.complaint.CreateComplaintRequest;
 import com.ab.hicarecommercialapp.model.complaint.CreateComplaintResponse;
+import com.ab.hicarecommercialapp.model.complaint.CreateInteractionRequest;
+import com.ab.hicarecommercialapp.model.complaint.CreateInteractionResponse;
 import com.ab.hicarecommercialapp.model.expert.ExpertRequest;
 import com.ab.hicarecommercialapp.model.expert.ExpertResponse;
+import com.ab.hicarecommercialapp.model.graph.DashboardResponse;
 import com.ab.hicarecommercialapp.model.graph.GraphRequest;
 import com.ab.hicarecommercialapp.model.graph.GraphResponse;
 import com.ab.hicarecommercialapp.model.invoice.InvoiceRequest;
 import com.ab.hicarecommercialapp.model.invoice.InvoiceResponse;
 import com.ab.hicarecommercialapp.model.login.LoginResponse;
 import com.ab.hicarecommercialapp.model.login.VerifyUserResponse;
+import com.ab.hicarecommercialapp.model.notification.NotificationResponse;
 import com.ab.hicarecommercialapp.model.order.OrderRequest;
 import com.ab.hicarecommercialapp.model.order.OrderResponse;
 import com.ab.hicarecommercialapp.model.register_user.RegisterRequest;
 import com.ab.hicarecommercialapp.model.register_user.RegisterResponse;
 import com.ab.hicarecommercialapp.model.service.MyServiceRequest;
+import com.ab.hicarecommercialapp.model.service.ServiceRequest;
 import com.ab.hicarecommercialapp.model.service.ServiceResponse;
 import com.ab.hicarecommercialapp.model.service.UpcomingServiceResponse;
+import com.ab.hicarecommercialapp.model.update.UpdateResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -71,6 +76,12 @@ public interface IRetrofit {
     Call<OrderResponse> getOrders(
             @Body OrderRequest request);
 
+    /*[GetDashboardSummary]*/
+
+    @POST("charts/GetDashboardSummary")
+    Call<DashboardResponse> getDashboardSummary(@Body GraphRequest request);
+
+
     /*[GetAllServiceRequest]*/
 
     @POST("servicerequest/GetAllServiceRequest")
@@ -95,6 +106,11 @@ public interface IRetrofit {
 
     @POST("complaint/CreateComplaintV2")
     Call<CreateComplaintResponse> getCreateComplaints(@Body CreateComplaintRequest request);
+
+    /*[Create SOS Complaints]*/
+
+    @POST("complaint/CreateSOSComplaint")
+    Call<CreateComplaintResponse> getCreateSOSComplaints(@Body CreateComplaintRequest request);
 
     /*[GetInvoiceServices]*/
 
@@ -121,7 +137,6 @@ public interface IRetrofit {
     @GET("User/VerifyCompanyCode")
     Call<CompanyResponse> getVerifyCompanyCode(@Query("companyCode") String companyCode);
 
-
     /*[VerifyCompanyCode]*/
 
     @GET("User/VerifyUser")
@@ -144,7 +159,7 @@ public interface IRetrofit {
 
     /*[GetTodaysService]*/
 
-    @POST("servicerequest/GetTodaysService")
+    @POST("servicerequest/GetTodaysServiceByAccountNo")
     Call<ServiceResponse> getTodaysServices(@Body MyServiceRequest request);
 
     /*[GetUpcomingServices]*/
@@ -161,8 +176,9 @@ public interface IRetrofit {
 
     @GET("audits/GetCustomerAudits")
     Call<AuditResponse> getCustomerAudits(@Query("accountId") String accountId,
-                                          @Query("startDate") String startDate,
-                                          @Query("endDate") String endDate);
+                                          @Query("StartDate") String startDate,
+                                          @Query("EndDate") String endDate,
+                                          @Query("IsChildAccount") Boolean isChild);
 
     /*[GetComplaintInteraction]*/
 
@@ -174,6 +190,9 @@ public interface IRetrofit {
     @POST("User/CallExpert")
     Call<ExpertResponse> getAnExpert(@Body ExpertRequest request);
 
+    @POST("complaint/CreateComplaintInteraction")
+    Call<CreateInteractionResponse> createComplaintInteraction(@Body CreateInteractionRequest request);
+
     /*[GetServiceHistory]*/
 
     @GET("servicerequest/GetServiceRequestByAccountNo")
@@ -181,12 +200,23 @@ public interface IRetrofit {
                                             @Query("startDate") String startDate,
                                             @Query("endDate") String endDate,
                                             @Query("PageOffset") Integer pageOffset,
-                                            @Query("PageSize") Integer pageSize);
+                                            @Query("PageSize") Integer pageSize,
+                                            @Query("isChildAccount") Boolean isChild);
 
     /*[UploadComplaintAttachment]*/
 
     @POST("Complaint/UploadComplaintAttachment")
     Call<ComplaintAttachmentResponse> getUploadComplaintAttachment(@Body ComplaintAttachmentRequest request);
 
+    /*[Update APP api]*/
+
+    @GET("ResourceActivity/VersionCheck")
+    Call<UpdateResponse> getUpdateApp();
+
+    /*[GetUserNotifications]*/
+
+    @GET("User/GetUserNotification")
+    Call<NotificationResponse> getNotifications(@Query("resourceId") String accountNo,
+                                                @Query("accountId") String startDate);
 
 }

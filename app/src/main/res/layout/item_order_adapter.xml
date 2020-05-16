@@ -250,18 +250,6 @@
                 android:orientation="vertical"
                 android:weightSum="3">
 
-                <jp.shts.android.library.TriangleLabelView
-                    android:id="@+id/txtDiscount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:layout_alignParentRight="true"
-                    app:backgroundColor="@color/green"
-                    app:corner="rightTop"
-                    app:labelCenterPadding="10dp"
-                    app:primaryText="-20.16%"
-                    app:primaryTextSize="9sp"
-                    app:primaryTextStyle="normal" />
 
                 <TextView
                     android:id="@+id/txtStrikeAmount"

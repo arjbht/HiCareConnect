@@ -22,14 +22,16 @@ public class LoginActivity extends BaseActivity implements LocationManagerListne
         setContentView(R.layout.activity_login);
 
         if (SharedPreferencesUtility.getPrefBoolean(this, SharedPreferencesUtility.IS_USER_LOGIN)) {
+            SharedPreferencesUtility.savePrefBoolean(this, SharedPreferencesUtility.SHOW_GUIDE, false);
             startActivity(new Intent(this, HomeActivity.class));
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             finish();
         } else {
+            SharedPreferencesUtility.savePrefBoolean(this, SharedPreferencesUtility.SHOW_GUIDE, true);
             if (SharedPreferencesUtility.getPrefBoolean(this, SharedPreferencesUtility.IS_SELF_REGISTERED)) {
-                addFragment(LoginFragment.newInstance(), "LoginActivity-LoginFragment");
-            } else {
                 addFragment(SelectUserFragment.newInstance(), "LoginActivity-SelectUserFragment");
+            } else {
+                addFragment(LoginFragment.newInstance(), "LoginActivity-LoginFragment");
             }
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }

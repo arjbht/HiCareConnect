@@ -12,23 +12,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.ab.hicarecommercialapp.BaseApplication;
 import com.ab.hicarecommercialapp.BaseFragment;
 import com.ab.hicarecommercialapp.R;
 import com.ab.hicarecommercialapp.adapter.RecyclerViewNotificationAdapter;
+import com.ab.hicarecommercialapp.model.branch.Branch;
+import com.ab.hicarecommercialapp.model.invoice.InvoiceRequest;
+import com.ab.hicarecommercialapp.model.login.LoginResponse;
+import com.ab.hicarecommercialapp.model.notification.Notifications;
+import com.ab.hicarecommercialapp.utils.SharedPreferencesUtility;
+import com.ab.hicarecommercialapp.view.dashboard.activity.HomeActivity;
+import com.ab.hicarecommercialapp.view.dashboard.fragment.invoices.InvoicePresenter;
+import com.ab.hicarecommercialapp.view.dashboard.fragment.services.ServicePresenter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotificationFragment extends BaseFragment {
+public class NotificationFragment extends BaseFragment implements NotificationView {
     @BindView(R.id.recycleView)
     RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerViewNotificationAdapter mRecyclerViewNotificationAdapter;
 
+    @BindView(R.id.emptyBox)
+    LinearLayout emptyBox;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerViewNotificationAdapter mAdapter;
+    RealmResults<Branch> mBranchRealmResults;
 
     public NotificationFragment() {
         // Required empty public constructor
@@ -61,7 +77,61 @@ public class NotificationFragment extends BaseFragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        mRecyclerViewNotificationAdapter = new RecyclerViewNotificationAdapter(getActivity());
-        recyclerView.setAdapter(mRecyclerViewNotificationAdapter);
+        mAdapter = new RecyclerViewNotificationAdapter(getActivity());
+        recyclerView.setAdapter(mAdapter);
+        getNotifications();
+    }
+
+    private void getNotifications() {
+        if ((HomeActivity) getActivity() != null) {
+            RealmResults<LoginResponse> mloginRealmModel =
+                    BaseApplication.getRealm().where(LoginResponse.class).findAll();
+            String resourceId = mloginRealmModel.get(0).getUserId();
+            if (mloginRealmModel != null && mloginRealmModel.size() > 0) {
+                if (SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_ACCOUNT_THERE)) {
+                    String accountNo = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.ACCOUNT_ID);
+                    NotificationPresenter presenter = new NotificationPresenter(this);
+                    presenter.getNotifications(resourceId, accountNo);
+                } else {
+                    mBranchRealmResults = getRealm().where(Branch.class).findAll();
+                    if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
+                        String accountNo = mBranchRealmResults.get(0).getAccountKey();
+                        NotificationPresenter presenter = new NotificationPresenter(this);
+                        presenter.getNotifications(resourceId, accountNo);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void setNotifications(List<Notifications> notifications) {
+//        progressBar.setVisibility(View.GONE);
+        if (notifications != null) {
+            if (notifications.size() > 0) {
+                mAdapter.setData(notifications);
+                mAdapter.notifyDataSetChanged();
+                emptyBox.setVisibility(View.GONE);
+            } else {
+                emptyBox.setVisibility(View.VISIBLE);
+            }
+        } else {
+            emptyBox.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onErrorLoading(String message) {
+
     }
 }

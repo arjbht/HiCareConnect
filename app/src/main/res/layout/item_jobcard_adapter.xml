@@ -33,7 +33,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_png_file" />
+                    app:srcCompat="@drawable/ic_png_file" />
 
 
             </LinearLayout>
@@ -106,7 +106,7 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_menu_dots" />
+                    app:srcCompat="@drawable/ic_menu_dots" />
 
             </LinearLayout>
 

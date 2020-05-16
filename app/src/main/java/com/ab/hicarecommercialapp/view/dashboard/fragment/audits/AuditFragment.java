@@ -15,7 +15,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -37,23 +36,16 @@ import com.ab.hicarecommercialapp.BaseFragment;
 import com.ab.hicarecommercialapp.BuildConfig;
 import com.ab.hicarecommercialapp.R;
 import com.ab.hicarecommercialapp.adapter.RecyclerViewAuditAdapter;
-import com.ab.hicarecommercialapp.adapter.RecyclerViewInvoiceAdapter;
 import com.ab.hicarecommercialapp.model.audit.Audit;
 import com.ab.hicarecommercialapp.model.branch.Branch;
-import com.ab.hicarecommercialapp.model.invoice.InvoiceRequest;
 import com.ab.hicarecommercialapp.model.login.LoginResponse;
 import com.ab.hicarecommercialapp.utils.PdfDownloader;
 import com.ab.hicarecommercialapp.utils.SharedPreferencesUtility;
 import com.ab.hicarecommercialapp.utils.notification.NLService;
 import com.ab.hicarecommercialapp.view.dashboard.activity.HomeActivity;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.invoices.InvoiceDetailsFragment;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.invoices.InvoiceFragment;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.invoices.InvoicePresenter;
-import com.squareup.picasso.Downloader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -82,21 +74,36 @@ public class AuditFragment extends BaseFragment implements AuditView {
     private RecyclerViewAuditAdapter adapter;
     RealmResults<Branch> mBranchRealmResults;
     private static final String TAG = "AuditFragment";
+    private static final String ARG_AUDIT_S = "ARG_AUDIT_S";
+    private static final String ARG_AUDIT_E = "ARG_AUDIT_E";
     //    ArrayList<AsyncTask<String, String, Void>> arr;
     NotificationCompat.Builder mBuilder;
     NotificationManager mNotifyManager;
     private NotificationReceiver nReceiver;
     int counter = 0;
+    String sDate = "";
+    String eDate = "";
 
     public AuditFragment() {
         // Required empty public constructor
     }
 
-    public static AuditFragment newInstance() {
+    public static AuditFragment newInstance(String sDate, String eDate) {
         Bundle args = new Bundle();
+        args.putString(ARG_AUDIT_S, sDate);
+        args.putString(ARG_AUDIT_E, eDate);
         AuditFragment fragment = new AuditFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            sDate = getArguments().getString(ARG_AUDIT_S);
+            eDate = getArguments().getString(ARG_AUDIT_E);
+        }
     }
 
     class NotificationReceiver extends BroadcastReceiver {
@@ -139,8 +146,8 @@ public class AuditFragment extends BaseFragment implements AuditView {
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.GONE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
 
         adapter =
                 new RecyclerViewAuditAdapter(getActivity());
@@ -190,12 +197,12 @@ public class AuditFragment extends BaseFragment implements AuditView {
                 if (SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_ACCOUNT_THERE)) {
                     String accountNo = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.ACCOUNT_ID);
                     AuditPresenter presenter = new AuditPresenter(this);
-                    presenter.getCustomerAudit(accountNo, "", "");
+                    presenter.getCustomerAudit(accountNo, sDate, eDate);
                 } else {
                     if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
                         String accountNo = mBranchRealmResults.get(0).getAccountKey();
                         AuditPresenter presenter = new AuditPresenter(this);
-                        presenter.getCustomerAudit(accountNo, "", "");
+                        presenter.getCustomerAudit(accountNo, sDate, eDate);
                     }
                 }
             }
@@ -243,7 +250,6 @@ public class AuditFragment extends BaseFragment implements AuditView {
                         startActivity(browserIntent);
 //                        replaceFragment(AuditViewPdfFragment.newInstance(audits.get(position).getPdfReport()), "AuditFragment-AuditViewPdfFragment");
 //                        viewPDF();
-
                         break;
                     case R.id.idDownload:
 //                        String extStorageDirectory = Environment.getExternalStorageDirectory()
@@ -411,7 +417,7 @@ public class AuditFragment extends BaseFragment implements AuditView {
         super.onDestroy();
         try {
             getActivity().unregisterReceiver(nReceiver);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

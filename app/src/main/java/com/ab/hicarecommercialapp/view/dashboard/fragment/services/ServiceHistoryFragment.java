@@ -112,8 +112,8 @@ public class ServiceHistoryFragment extends BaseFragment implements ServiceView 
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.GONE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
         adapter =
                 new RecyclerViewServiceAdapter(getActivity());
         recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -235,30 +235,18 @@ public class ServiceHistoryFragment extends BaseFragment implements ServiceView 
             RealmResults<LoginResponse> mloginRealmModel =
                     BaseApplication.getRealm().where(LoginResponse.class).findAll();
             if (mloginRealmModel != null && mloginRealmModel.size() > 0) {
-                String mobile = mloginRealmModel.get(0).getMobile();
-                boolean isAdmin = Boolean.parseBoolean(mloginRealmModel.get(0).getIsAdmin());
                 if (SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_ACCOUNT_THERE)) {
-                    MyServiceRequest request = new MyServiceRequest();
                     String accountNo = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.ACCOUNT_ID);
-                    request.setAccountNo(accountNo);
-                    request.setPageSize(10);
-                    request.setIsAdmin(isAdmin);
-                    request.setMobileNo(mobile);
-                    request.setPageOffset(pageNumber);
                     ServicePresenter presenter = new ServicePresenter(this);
-                    presenter.getServiceHistory(request, sDate, eDate);
+                    presenter.getServiceHistory(accountNo, sDate, eDate, pageNumber, 10, true);
+                    adapter.notifyDataSetChanged();
                 } else {
                     mBranchRealmResults = getRealm().where(Branch.class).findAll();
                     if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
                         String accountNo = mBranchRealmResults.get(0).getAccountKey();
-                        MyServiceRequest request = new MyServiceRequest();
-                        request.setAccountNo(accountNo);
-                        request.setPageSize(10);
-                        request.setIsAdmin(isAdmin);
-                        request.setMobileNo(mobile);
-                        request.setPageOffset(pageNumber);
                         ServicePresenter presenter = new ServicePresenter(this);
-                        presenter.getServiceHistory(request, sDate, eDate);
+                        presenter.getServiceHistory(accountNo, sDate, eDate, pageNumber, 10, true);
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -289,10 +277,9 @@ public class ServiceHistoryFragment extends BaseFragment implements ServiceView 
                 emptyBox.setVisibility(View.GONE);
             } else {
                 pageNumber -= 10;
-//                emptyBox.setVisibility(View.VISIBLE);
+                adapter.notifyDataSetChanged();
+                emptyBox.setVisibility(View.VISIBLE);
             }
-        } else {
-            emptyBox.setVisibility(View.VISIBLE);
         }
 
     }

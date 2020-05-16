@@ -59,8 +59,8 @@ public class JobCardFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.GONE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
         recyclerView.setHasFixedSize(true);
         mLinearLayout = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLinearLayout);

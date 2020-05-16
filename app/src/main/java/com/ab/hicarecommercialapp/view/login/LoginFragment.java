@@ -115,7 +115,7 @@ public class LoginFragment extends BaseFragment implements VerifyUserView {
     @Override
     public void setVerifyUserResponse(VerifyUserResponse response) {
         if (response.getSuccess()) {
-            replaceFragment(VerifyFragment.newInstance(edtMobile.getText().toString(), response.getData().getUserPassword()), "LoginFragment-VerifyFragment");
+            replaceFragment(VerifyFragment.newInstance(edtMobile.getText().toString(), response.getData().getUserPassword(), response.getData().getLoginOtp()), "LoginFragment-VerifyFragment");
         } else {
             AppUtils.showDialogMessage(getActivity(), "Error ", response.getErrorMessage());
         }

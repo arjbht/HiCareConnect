@@ -27,7 +27,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.shts.android.library.TriangleLabelView;
 
 /**
  * Created by Arjun Bhatt on 9/20/2019.
@@ -69,11 +68,11 @@ public class RecyclerViewOrderAdapter extends RecyclerView.Adapter<RecyclerViewO
         holder.txtStrikeAmount.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         holder.txtStrikeAmount.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
         holder.txtDay.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
-        holder.txtDiscount.setPrimaryText(items.get(position).getDiscount_Offered__c()+"%");
+//        holder.txtDiscount.setPrimaryText(items.get(position).getDiscount_Offered__c()+"%");
         try {
-            String year = TimeUtil.reFormatDateTime(items.get(position).getStartDate(), "yyyy");
-            String day = TimeUtil.reFormatDateTime(items.get(position).getStartDate(), "dd");
-            String month = TimeUtil.reFormatDateTime(items.get(position).getStartDate(), "MMM");
+            String year = TimeUtil.reFormatDate(items.get(position).getStartDate(), "yyyy");
+            String day = TimeUtil.reFormatDate(items.get(position).getStartDate(), "dd");
+            String month = TimeUtil.reFormatDate(items.get(position).getStartDate(), "MMM");
 
             holder.txtYear.setText(year);
             holder.txtDay.setText(day);
@@ -95,6 +94,9 @@ public class RecyclerViewOrderAdapter extends RecyclerView.Adapter<RecyclerViewO
         items.addAll(data);
     }
 
+    public Orders getItem(int position) {
+        return items.get(position);
+    }
 
     @Override
     public int getItemCount() {
@@ -106,8 +108,8 @@ public class RecyclerViewOrderAdapter extends RecyclerView.Adapter<RecyclerViewO
         @BindView(R.id.txtOrderNo)
         TextView txtOrderNo;
 
-        @BindView(R.id.txtDiscount)
-        TriangleLabelView txtDiscount;
+//        @BindView(R.id.txtDiscount)
+//        TriangleLabelView txtDiscount;
 
         @BindView(R.id.txtStatus)
         TextView txtStatus;

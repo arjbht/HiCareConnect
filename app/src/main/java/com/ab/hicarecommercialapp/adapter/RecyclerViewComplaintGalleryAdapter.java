@@ -1,13 +1,11 @@
 package com.ab.hicarecommercialapp.adapter;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -15,11 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ab.hicarecommercialapp.R;
 import com.ab.hicarecommercialapp.model.complaint.Attachment;
-import com.ab.hicarecommercialapp.model.complaint.Complaints;
-import com.ab.hicarecommercialapp.utils.TimeUtil;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +51,6 @@ public class RecyclerViewComplaintGalleryAdapter extends RecyclerView.Adapter<Re
         if (items.get(position).getAttachmentUrl() != null) {
             Picasso.get().load(items.get(position).getAttachmentUrl()).into(holder.imageView);
         }
-
     }
 
     public void setData(List<Attachment> data) {
@@ -91,7 +85,7 @@ public class RecyclerViewComplaintGalleryAdapter extends RecyclerView.Adapter<Re
 
         @Override
         public void onClick(View v) {
-            clickListener.onClick(v, getAdapterPosition());
+            clickListener.onClick(v, getAdapterPosition(), itemView);
         }
     }
 
@@ -102,7 +96,7 @@ public class RecyclerViewComplaintGalleryAdapter extends RecyclerView.Adapter<Re
 
 
     public interface ClickListener {
-        void onClick(View view, int position);
+        void onClick(View view, int position, View bgHighlight);
     }
 }
 

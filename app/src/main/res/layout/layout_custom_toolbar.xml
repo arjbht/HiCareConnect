@@ -21,20 +21,20 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="13dp"
                 android:layout_height="13dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="3dp"
-                android:src="@drawable/ic_placeholder" />
+                app:srcCompat="@drawable/ic_placeholder" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="3dp"
-                android:textColor="@color/grey"
-                android:text="Your location" />
+                android:textColor="@color/colorPrimary"
+                android:text="@string/your_location" />
 
         </LinearLayout>
 
@@ -47,9 +47,8 @@
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Vikhroli, Godrej &amp; Boyce industry estate"
             android:textColor="@color/black"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
 
         <View

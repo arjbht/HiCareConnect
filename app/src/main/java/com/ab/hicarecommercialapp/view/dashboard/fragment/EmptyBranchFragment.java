@@ -61,7 +61,7 @@ public class EmptyBranchFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.VISIBLE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.VISIBLE);
     }
 }

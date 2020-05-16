@@ -27,6 +27,14 @@ public class GraphRequest {
     @Expose
     private String ReportType;
 
+    @SerializedName("IsChildAccount")
+    @Expose
+    private Boolean IsChildAccount;
+
+    @SerializedName("ShowServiceDayWise")
+    @Expose
+    private Boolean ShowServiceDayWise;
+
     public String getUserId() {
         return UserId;
     }
@@ -65,5 +73,21 @@ public class GraphRequest {
 
     public void setReportType(String reportType) {
         ReportType = reportType;
+    }
+
+    public Boolean getChildAccount() {
+        return IsChildAccount;
+    }
+
+    public void setChildAccount(Boolean childAccount) {
+        IsChildAccount = childAccount;
+    }
+
+    public Boolean getShowServiceDayWise() {
+        return ShowServiceDayWise;
+    }
+
+    public void setShowServiceDayWise(Boolean showServiceDayWise) {
+        ShowServiceDayWise = showServiceDayWise;
     }
 }

@@ -11,7 +11,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:background="@color/smoke_gray">
 
         <LinearLayout
@@ -34,23 +33,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/txtThumbnail"
+                    <!--<TextView-->
+                        <!--android:id="@+id/txtThumbnail"-->
+                        <!--android:layout_width="50dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginStart="15dp"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:background="@drawable/circlebg"-->
+                        <!--android:gravity="center"-->
+                        <!--android:lineSpacingMultiplier="1.2"-->
+                        <!--android:text="A"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="22sp"-->
+                        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                        <!--app:layout_constraintRight_toLeftOf="@id/txt_username"-->
+                        <!--app:layout_constraintStart_toStartOf="parent"-->
+                        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgThumbnail"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginStart="15dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/circlebg"
-                        android:gravity="center"
-                        android:lineSpacingMultiplier="1.2"
-                        android:text="A"
-                        android:textColor="@color/white"
-                        android:textSize="22sp"
+                        app:civ_border_color="@color/colorPrimary"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toLeftOf="@id/txt_username"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:civ_border_width="0.5dp" />>
 
                     <TextView
                         android:id="@+id/txt_username"
@@ -58,12 +72,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
-                        android:text="Arjun Bhatt"
+                        android:text="@string/arjun_bhatt"
                         android:textColor="@color/colorPrimary"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        app:layout_constraintLeft_toRightOf="@+id/txtThumbnail"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintLeft_toRightOf="@+id/imgThumbnail"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="5dp" />
 
                     <TextView
                         android:id="@+id/txt_userdetails"
@@ -71,10 +86,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
-                        android:text="7700066803 | bhatt.arjun@gmail.com"
+                        android:text="@string/_7700066803_bhatt_arjun_gmail_com"
                         android:textColor="@color/colorPrimary"
-                        app:layout_constraintLeft_toRightOf="@+id/txtThumbnail"
-                        app:layout_constraintTop_toBottomOf="@id/txt_username" />
+                        app:layout_constraintLeft_toRightOf="@+id/imgThumbnail"
+                        app:layout_constraintTop_toBottomOf="@id/txt_username"
+                        android:layout_marginStart="5dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -84,7 +100,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:visibility="gone"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -93,7 +110,7 @@
                             android:layout_marginTop="3dp"
                             android:layout_marginRight="6dp"
                             android:layout_marginBottom="3dp"
-                            android:text="Edit"
+                            android:text="@string/edit"
                             android:textColor="@color/colorPrimary"
                             android:textSize="18sp" />
 
@@ -116,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgOrders"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -124,7 +141,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_my_orders"
+                        app:srcCompat="@drawable/ic_my_orders"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -144,12 +161,12 @@
                         app:layout_constraintTop_toBottomOf="parent" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginEnd="15dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -160,14 +177,16 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
+                    android:visibility="gone"
                     android:background="@color/tab_textColor" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/idAudits"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgAudits"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -175,7 +194,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_audit"
+                        app:srcCompat="@drawable/ic_audit"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -187,22 +206,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="Audits"
+                        android:text="@string/audits"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgAudits"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="15dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -216,7 +237,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgHistory"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -224,7 +245,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_history"
+                        app:srcCompat="@drawable/ic_history"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -236,26 +257,110 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="Service History"
+                        android:text="@string/service_history"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgHistory"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="15dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/tab_textColor" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/idGetExpert"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgExpert"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:lineSpacingMultiplier="1.2"
+                        app:srcCompat="@drawable/ic_expert"
+                        app:layout_constraintBottom_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtExpert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="@string/get_an_expert"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/imgExpert"
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="15dp"
+                        app:srcCompat="@drawable/ic_right_arrow"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="15dp" />
+
+                    <Button
+                        android:id="@+id/btnExpert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@drawable/border_green"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:text="@string/get_expert"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="15dp" />
+
+
+                    <com.tuyenmonkey.mkloader.MKLoader
+                        android:id="@+id/loader"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:visibility="gone"
+                        android:layout_marginRight="15dp"
+                        android:layout_gravity="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:mk_color="@color/darkBlue"
+                        app:mk_type="LineSpinner"
+                        android:layout_marginEnd="15dp" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </LinearLayout>
@@ -287,7 +392,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_notification_bell"
+                        app:srcCompat="@drawable/ic_notification_bell"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -299,22 +404,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="Notifications"
+                        android:text="@string/notifications"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgNotification"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="15dp" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -329,7 +436,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgFeedback"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -337,7 +444,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_feedback"
+                        app:srcCompat="@drawable/ic_feedback"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -349,19 +456,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="App Feedback"
+                        android:text="@string/app_feedback"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgFeedback"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -378,7 +486,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgRating"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -386,7 +494,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_rating"
+                        app:srcCompat="@drawable/ic_rating"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -398,22 +506,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="Rate HiCare App"
+                        android:text="@string/rate_hicare_app"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgRating"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="15dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -427,7 +537,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgFaq"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -435,7 +545,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_question"
+                        app:srcCompat="@drawable/ic_question"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -447,19 +557,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="FAQS"
+                        android:text="@string/faqs"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgFaq"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -476,7 +587,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgAbout"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -484,7 +595,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_about"
+                        app:srcCompat="@drawable/ic_about"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -496,19 +607,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="About Us"
+                        android:text="@string/about_us"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgAbout"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -525,7 +637,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgContact"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -533,7 +645,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_contact"
+                        app:srcCompat="@drawable/ic_contact"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -545,19 +657,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="Contact Us"
+                        android:text="@string/contact_us"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgContact"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -574,7 +687,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgPrivacy"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -582,7 +695,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_forms"
+                        app:srcCompat="@drawable/ic_forms"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -594,19 +707,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="Privacy Policy"
+                        android:text="@string/privacy_policy"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgPrivacy"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -623,7 +737,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgConditions"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -631,7 +745,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:src="@drawable/ic_forms"
+                        app:srcCompat="@drawable/ic_forms"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -643,19 +757,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="Terms &amp; Conditions"
+                        android:text="@string/terms_amp_conditions"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgConditions"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="parent"
+                        android:layout_marginStart="10dp" />
 
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_right_arrow"
+                        app:srcCompat="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -682,7 +797,7 @@
                     android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="@color/colorPrimary"
-                    android:text="LOGOUT" />
+                    android:text="@string/logout" />
 
             </LinearLayout>
 
@@ -701,6 +816,7 @@
                     android:text="V 1.0" />
 
             </LinearLayout>
+
 
 
         </LinearLayout>

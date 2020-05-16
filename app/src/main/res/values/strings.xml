@@ -1,6 +1,62 @@
 <resources>
-    <string name="app_name">HiCare Connect</string>
+    <string name="app_name">HiCare Customer Connect</string>
+    <string name="to_get_started_enter_your_company_code">To get started, enter your company code</string>
+    <string name="company_code">Company code</string>
+    <string name="verify">VERIFY</string>
+    <string name="tap_here_to_switch_location">Tap here to switch location</string>
+    <string name="login">LOGIN</string>
+    <string name="arjun_bhatt">Arjun Bhatt</string>
+    <string name="_7700066803_bhatt_arjun_gmail_com">7700066803 | bhatt.arjun@gmail.com</string>
+    <string name="edit">Edit</string>
+    <string name="audits">Audits</string>
+    <string name="service_history">Service History</string>
+    <string name="get_an_expert">Get an Expert</string>
+    <string name="get_expert">Get Expert</string>
+    <string name="notifications">Notifications</string>
+    <string name="app_feedback">App Feedback</string>
+    <string name="rate_hicare_app">Rate HiCare App</string>
+    <string name="faqs">FAQS</string>
+    <string name="about_us">About Us</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="logout">LOGOUT</string>
+    <string name="there_is_no_complaints_to_display">There is no Complaints to display.</string>
+    <string name="ticket_id">Ticket Id</string>
+    <string name="created_on">Created On</string>
+    <string name="description">Description</string>
+    <string name="case_interactions">Case Interactions</string>
+    <string name="complaint_type">Complaint Type</string>
+    <string name="title">Title</string>
+    <string name="add_photocopy">Add Photocopy</string>
+    <string name="lodge_complaint">Lodge Complaint</string>
+    <string name="there_is_no_branch_to_display">There is no Branch to display.</string>
+    <string name="services">Services</string>
+    <string name="complaints">Complaints</string>
+    <string name="upcoming_services">Upcoming Services</string>
+    <string name="view_more">View more...</string>
+    <string name="there_is_no_upcoming_services_to_display">There is no Upcoming Services to display.</string>
+    <string name="no_invoice_found">No Invoice Found!</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="we_will_send_you_a_one_time_password_on_your_phone_number">We will send you a One Time Password on your phone number</string>
+    <string name="mobile_number_s">Mobile number</string>
+    <string name="proceed">PROCEED</string>
+    <string name="success">Success</string>
+    <string name="thank_you">Thank You,</string>
+    <string name="your_request_has_been_sent_we_will_come_to_you_soon">Your request has been sent. We will come to you soon</string>
+    <string name="ok">Ok</string>
+    <string name="your_location">Your location</string>
+    <string name="order_no">Order No.</string>
+    <string name="service_count">Service Count</string>
+    <string name="view_details">VIEW DETAILS</string>
+    <string name="incomplete">Incomplete</string>
+    <string name="technician_name">Technician Name</string>
+    <string name="order_nos">Order No.</string>
+    <string name="sequence_no">Sequence No.</string>
+    <string name="incomplete_reason">Incomplete Reason</string>
+    <string name="ratings">Ratings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

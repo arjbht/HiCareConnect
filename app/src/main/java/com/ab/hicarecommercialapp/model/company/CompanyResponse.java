@@ -14,15 +14,13 @@ public class CompanyResponse {
     @SerializedName("IsSuccess")
     @Expose
     private Boolean IsSuccess;
-    @SerializedName("Message")
-    @Expose
-    private String message = null;
+
     @SerializedName("Data")
     @Expose
-    private Company data = null;
+    private Company data;
     @SerializedName("ErrorMessage")
     @Expose
-    private String errorMessage = null;
+    private String errorMessage;
 
 
     public Boolean getSuccess() {
@@ -31,14 +29,6 @@ public class CompanyResponse {
 
     public void setSuccess(Boolean success) {
         IsSuccess = success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public Company getData() {

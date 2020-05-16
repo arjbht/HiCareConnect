@@ -42,4 +42,29 @@ public class CreateComplaintPresenter {
 
                 });
     }
+
+    public void getCreateSOSComplaint(final CreateComplaintRequest request) {
+        view.showLoading();
+        BaseApplication.getRetrofitAPI(true)
+                .getCreateSOSComplaints(request)
+                .enqueue(new Callback<CreateComplaintResponse>() {
+                    @Override
+                    public void onResponse(Call<CreateComplaintResponse> call, Response<CreateComplaintResponse> response) {
+                        view.hideLoading();
+                        if (response.isSuccessful() && response.body() != null) {
+                            view.setCreateComplaint(response.body());
+                        } else {
+                            view.onErrorLoading(response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CreateComplaintResponse> call, Throwable t) {
+                        view.hideLoading();
+                        view.onErrorLoading(t.getLocalizedMessage());
+                    }
+
+                });
+    }
+
 }

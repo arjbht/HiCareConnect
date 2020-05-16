@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 
@@ -15,9 +17,7 @@ import com.ab.hicarecommercialapp.view.login.LoginActivity;
  * Created by Arjun Bhatt on 9/25/2019.
  */
 public class AppUtils {
-
     private static ProgressDialog mProgressDialog;
-
     public static void showExitAlert(Activity context) {
         try {
             final AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
@@ -41,6 +41,44 @@ public class AppUtils {
             e.printStackTrace();
         }
 
+    }
+
+    public static void showDownloadActionAlertBox(Context context, String title, String mStrMessage, DialogInterface.OnClickListener mClickListener) {
+        androidx.appcompat.app.AlertDialog.Builder mBuilder = new androidx.appcompat.app.AlertDialog.Builder(context);
+        mBuilder.setIcon(R.mipmap.logo);
+        mBuilder.setTitle(title);
+        mBuilder.setMessage(mStrMessage);
+        mBuilder.setPositiveButton("UPDATE", mClickListener);
+        mBuilder.setCancelable(false);
+        mBuilder.create().show();
+    }
+
+    public static boolean checkConnection(Context context) {
+        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
+
+        if (activeNetworkInfo != null) { // connected to the internet
+            // Toast.makeText(context, activeNetworkInfo.getTypeName(), Toast.LENGTH_SHORT).show();
+            if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                return true;
+            } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                // connected to the mobile provider's data plan
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public static void showOkActionAlertBox(Context context, String mStrMessage, DialogInterface.OnClickListener mClickListener) {
+        androidx.appcompat.app.AlertDialog.Builder mBuilder = new androidx.appcompat.app.AlertDialog.Builder(context);
+
+        mBuilder.setMessage(mStrMessage);
+        mBuilder.setPositiveButton("ok", mClickListener);
+        mBuilder.setCancelable(false);
+        mBuilder.create().show();
     }
 
 

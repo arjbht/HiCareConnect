@@ -426,7 +426,7 @@
                         android:layout_centerInParent="true"
                         android:layout_gravity="center"
                         android:layout_weight="2"
-                        android:src="@drawable/ic_chevron_arrow_up"
+                        app:srcCompat="@drawable/ic_chevron_arrow_up"
                         android:visibility="gone" />
 
                 </RelativeLayout>

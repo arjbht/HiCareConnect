@@ -18,15 +18,14 @@ public class BranchPresenter {
         this.view = view;
     }
 
-    public void getBranchList(final String userId,final String companyCode,final String lat, final String lon) {
+    public void getBranchList(final String userId, final String companyCode, final String lat, final String lon) {
         view.showLoading();
-        BaseApplication.getRetrofitAPI(false)
+        BaseApplication.getRetrofitAPI(true)
                 .getBranchList(userId, companyCode, lat, lon)
                 .enqueue(new Callback<BranchResponse>() {
                     @Override
                     public void onResponse(Call<BranchResponse> call, Response<BranchResponse> response) {
                         view.hideLoading();
-
                         if (response.isSuccessful() && response.body() != null) {
                             view.setBranch(response.body());
                         } else {

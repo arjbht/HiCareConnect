@@ -180,7 +180,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_arrow_point_to_right" />
+                app:srcCompat="@drawable/ic_arrow_point_to_right" />
         </LinearLayout>
 
 

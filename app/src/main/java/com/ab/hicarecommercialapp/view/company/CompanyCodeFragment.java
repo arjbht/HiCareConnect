@@ -41,6 +41,11 @@ public class CompanyCodeFragment extends BaseFragment implements CompanyView {
     @BindView(R.id.loader)
     MKLoader loader;
 
+    String CompanyCode = "";
+    String CompanyImage = "";
+    Boolean isDayWise = false;
+    int isSelfRegistered = 0;
+
     public CompanyCodeFragment() {
         // Required empty public constructor
     }
@@ -93,24 +98,30 @@ public class CompanyCodeFragment extends BaseFragment implements CompanyView {
     public void hideLoading() {
 //        AppUtils.dismissProgressDialog();
         loader.setVisibility(View.GONE);
-
     }
 
     @Override
     public void setCompanyResponse(CompanyResponse response) {
-        if (response.getSuccess()) {
-            SharedPreferencesUtility.savePrefString(getActivity(), SharedPreferencesUtility.COMPANY_CODE, response.getData().getCompanyCode());
-            SharedPreferencesUtility.savePrefString(getActivity(), SharedPreferencesUtility.COMPANY_IMAGE, response.getData().getCompanyLogo());
-            if (response.getData().getIsSelfRegisteredAllowed() == 1) {
-                SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.IS_SELF_REGISTERED, true);
+        if((CompanyCodeActivity)getActivity()!=null){
+            if (response.getSuccess()) {
+                CompanyCode = response.getData().getCompanyCode();
+                CompanyImage = response.getData().getCompanyLogo();
+                isDayWise = response.getData().getShowServiceDayWise();
+                isSelfRegistered = response.getData().getIsSelfRegisteredAllowed();
+                SharedPreferencesUtility.savePrefString(getActivity(), SharedPreferencesUtility.COMPANY_CODE, CompanyCode);
+                SharedPreferencesUtility.savePrefString(getActivity(), SharedPreferencesUtility.COMPANY_IMAGE, CompanyImage);
+                if (isSelfRegistered == 1) {
+                    SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.IS_SELF_REGISTERED, true);
+                } else {
+                    SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.IS_SELF_REGISTERED, false);
+                }
+                SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.IS_SERVICE_DAY_WISE, isDayWise);
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                getActivity().finish();
             } else {
-                SharedPreferencesUtility.savePrefBoolean(getActivity(), SharedPreferencesUtility.IS_SELF_REGISTERED, false);
+                AppUtils.showDialogMessage(getActivity(), "Error", response.getErrorMessage());
             }
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-            getActivity().finish();
-        } else {
-            AppUtils.showDialogMessage(getActivity(), "Error", response.getErrorMessage());
         }
     }
 

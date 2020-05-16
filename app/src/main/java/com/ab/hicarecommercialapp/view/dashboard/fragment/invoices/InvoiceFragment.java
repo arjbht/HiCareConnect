@@ -54,8 +54,6 @@ public class InvoiceFragment extends BaseFragment implements InvoiceView {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    @BindView(R.id.shimmerInvoices)
-    LinearLayout shimmerInvoices;
     private Integer pageNumber = 0;
     private RecyclerViewInvoiceAdapter adapter;
     RealmResults<Branch> mBranchRealmResults;
@@ -86,8 +84,8 @@ public class InvoiceFragment extends BaseFragment implements InvoiceView {
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.GONE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
 
         adapter =
                 new RecyclerViewInvoiceAdapter(getActivity());
@@ -183,14 +181,15 @@ public class InvoiceFragment extends BaseFragment implements InvoiceView {
         }
     }
 
+
     @Override
     public void showLoading() {
-        shimmerInvoices.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void hideLoading() {
-        shimmerInvoices.setVisibility(View.GONE);
+
     }
 
     @Override

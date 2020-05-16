@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,19 +19,13 @@ import com.ab.hicarecommercialapp.BaseApplication;
 import com.ab.hicarecommercialapp.BaseFragment;
 import com.ab.hicarecommercialapp.R;
 import com.ab.hicarecommercialapp.adapter.RecyclerViewComplaintAdapter;
-import com.ab.hicarecommercialapp.adapter.RecyclerViewInvoiceAdapter;
 import com.ab.hicarecommercialapp.model.branch.Branch;
 import com.ab.hicarecommercialapp.model.complaint.ComplaintRequest;
 import com.ab.hicarecommercialapp.model.complaint.Complaints;
-import com.ab.hicarecommercialapp.model.invoice.InvoiceRequest;
 import com.ab.hicarecommercialapp.model.login.LoginResponse;
-import com.ab.hicarecommercialapp.model.service.MyServiceRequest;
 import com.ab.hicarecommercialapp.utils.AppUtils;
 import com.ab.hicarecommercialapp.utils.SharedPreferencesUtility;
 import com.ab.hicarecommercialapp.view.dashboard.activity.HomeActivity;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.invoices.InvoicePresenter;
-import com.ab.hicarecommercialapp.view.dashboard.fragment.services.ServicePresenter;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -91,15 +84,15 @@ public class ComplaintFragment extends BaseFragment implements ComplaintView {
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.GONE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
         adapter = new RecyclerViewComplaintAdapter(getActivity());
         recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycleView.setHasFixedSize(true);
         recycleView.setClipToPadding(false);
         recycleView.setAdapter(adapter);
         getComplaints();
-        fabAdd.setOnClickListener(view1 -> replaceFragment(CreateComplaintFragment.newInstance(), "ComplaintFragment-CreateComplaintFragment"));
+        fabAdd.setOnClickListener(view1 -> replaceFragment(CreateComplaintFragment.newInstance("Lodge Complaint",false), "ComplaintFragment-CreateComplaintFragment"));
     }
 
 

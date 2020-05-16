@@ -13,7 +13,7 @@ public class ServiceResponse implements Parcelable {
     @SerializedName("IsSuccess") @Expose
     private Boolean IsSuccess;
     @SerializedName("Message") @Expose
-    private String message = null;
+    private String message;
     @SerializedName("Data") @Expose
     private List<Service_Details> data = null;
 

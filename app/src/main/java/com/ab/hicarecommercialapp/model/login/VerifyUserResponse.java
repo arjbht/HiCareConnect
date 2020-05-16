@@ -13,13 +13,13 @@ public class VerifyUserResponse {
     private Boolean IsSuccess;
     @SerializedName("Message")
     @Expose
-    private String message = null;
+    private String message;
     @SerializedName("Data")
     @Expose
-    private Verify data = null;
+    private Verify data;
     @SerializedName("ErrorMessage")
     @Expose
-    private String errorMessage = null;
+    private String errorMessage;
 
 
     public Boolean getSuccess() {

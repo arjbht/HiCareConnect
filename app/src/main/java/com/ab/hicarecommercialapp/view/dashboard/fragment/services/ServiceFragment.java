@@ -36,7 +36,7 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ServiceFragment extends BaseFragment implements ServiceView,TodayServiceView {
+public class ServiceFragment extends BaseFragment implements ServiceView, TodayServiceView {
 
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
@@ -49,10 +49,11 @@ public class ServiceFragment extends BaseFragment implements ServiceView,TodaySe
 
     @BindView(R.id.emptyBox)
     LinearLayout emptyBox;
+    String sDate = "";
+    String eDate = "";
 
-
-
-
+    private static final String ARG_AUDIT_S = "ARG_AUDIT_S";
+    private static final String ARG_AUDIT_E = "ARG_AUDIT_E";
     private RecyclerViewServiceAdapter adapter;
     private Integer pageNumber = 0;
     RealmResults<Branch> mBranchRealmResults;
@@ -61,13 +62,23 @@ public class ServiceFragment extends BaseFragment implements ServiceView,TodaySe
         // Required empty public constructor
     }
 
-    public static ServiceFragment newInstance() {
+    public static ServiceFragment newInstance(String sDate, String eDate) {
         Bundle args = new Bundle();
+        args.putString(ARG_AUDIT_S, sDate);
+        args.putString(ARG_AUDIT_E, eDate);
         ServiceFragment fragment = new ServiceFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            sDate = getArguments().getString(ARG_AUDIT_S);
+            eDate = getArguments().getString(ARG_AUDIT_E);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,8 +96,8 @@ public class ServiceFragment extends BaseFragment implements ServiceView,TodaySe
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.cToolbar).setVisibility(View.GONE);
         getActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.bottom_navigation2).setVisibility(View.GONE);
+//        getActivity().findViewById(R.id.navigationBorder).setVisibility(View.GONE);
 
         adapter =
                 new RecyclerViewServiceAdapter(getActivity());
@@ -107,13 +118,14 @@ public class ServiceFragment extends BaseFragment implements ServiceView,TodaySe
                 if (dy > 0 && isLastItemDisplaying(recycleView)) {
                     pageNumber += 10;
                     progressBar.setVisibility(View.VISIBLE);
-                    getAllServices();
+//                    getAllServices();
+                    getServiceHistory();
                 }
             }
         });
 
-        getAllServices();
-
+//        getAllServices();
+        getServiceHistory();
     }
 
     private boolean isLastItemDisplaying(RecyclerView recyclerView) {
@@ -166,6 +178,28 @@ public class ServiceFragment extends BaseFragment implements ServiceView,TodaySe
         }
     }
 
+    private void getServiceHistory() {
+        if ((HomeActivity) getActivity() != null) {
+            RealmResults<LoginResponse> mloginRealmModel =
+                    BaseApplication.getRealm().where(LoginResponse.class).findAll();
+            if (mloginRealmModel != null && mloginRealmModel.size() > 0) {
+                if (SharedPreferencesUtility.getPrefBoolean(getActivity(), SharedPreferencesUtility.IS_ACCOUNT_THERE)) {
+                    String accountNo = SharedPreferencesUtility.getPrefString(getActivity(), SharedPreferencesUtility.ACCOUNT_ID);
+                    ServicePresenter presenter = new ServicePresenter(this);
+                    presenter.getServiceHistory(accountNo, sDate, eDate, pageNumber, 10, true);
+                } else {
+                    mBranchRealmResults = getRealm().where(Branch.class).findAll();
+                    if (mBranchRealmResults != null && mBranchRealmResults.size() > 0) {
+                        String accountNo = mBranchRealmResults.get(0).getAccountKey();
+                        ServicePresenter presenter = new ServicePresenter(this);
+                        presenter.getServiceHistory(accountNo, sDate, eDate, pageNumber, 10, true);
+                    }
+                }
+            }
+        }
+    }
+
+
     @Override
     public void showLoading() {
         shimmerService.setVisibility(View.VISIBLE);
@@ -192,7 +226,7 @@ public class ServiceFragment extends BaseFragment implements ServiceView,TodaySe
                 pageNumber -= 10;
                 emptyBox.setVisibility(View.VISIBLE);
             }
-        }else {
+        } else {
             emptyBox.setVisibility(View.VISIBLE);
         }
     }

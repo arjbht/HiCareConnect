@@ -62,6 +62,7 @@ public class RecyclerViewComplaintAdapter extends RecyclerView.Adapter<RecyclerV
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        holder.txtType.setText(items.get(position).getComplaintType());
         if (items.get(position).getTitle() != null) {
             holder.txtTitle.setText(items.get(position).getTitle());
         } else {

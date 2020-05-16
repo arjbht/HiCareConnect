@@ -84,6 +84,7 @@
                             android:inputType="number"
                             android:textColor="@color/colorPrimary"
                             app:itemCount="4"
+                            android:imeOptions="actionDone"
                             app:itemWidth="50dp"
                             app:itemSpacing="15dp"
                             android:layout_gravity="center"

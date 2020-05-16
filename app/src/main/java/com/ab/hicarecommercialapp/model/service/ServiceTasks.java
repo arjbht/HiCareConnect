@@ -7,34 +7,34 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ServiceTasks implements Parcelable {
-    @SerializedName("CKSW__Status__c")
+    @SerializedName("HR_Status__c")
     @Expose
     private String Technician_Status;
 
-    @SerializedName("CKSW__Appointment_Start_Date__c")
+    @SerializedName("HR_Appointment_Start_Date__c")
     @Expose
     private String CustomerAppointedStartDate;
 
-    @SerializedName("CKSW__Appointment_Start_Time_AMPM__c")
+    @SerializedName("HR_Appointment_Start_Time_AMPM__c")
     @Expose
     private String CustomerAppointedStartTime;
 
-    @SerializedName("CKSW__Appointment_Finish_Date__c")
+    @SerializedName("HR_Appointment_Finish_Date__c")
     @Expose
     private String CustomerAppointedFinishDate;
-    @SerializedName("CKSW__Appointment_Finish_Time_AMPM__c")
+    @SerializedName("HR_Appointment_Finish_Time_AMPM__c")
     @Expose
     private String CustomerAppointedFinishTime;
-    @SerializedName("CKSW__Assignment_Start_Date__c")
+    @SerializedName("HR_Assignment_Start_Date__c")
     @Expose
     private String CustomerAssignmentStartDate;
-    @SerializedName("CKSW__Assignment_Start_Time_AMPM__c")
+    @SerializedName("HR_Assignment_Start_Time_AMPM__c")
     @Expose
     private String CustomerAssignmentStartTime;
-    @SerializedName("CKSW__Assignment_Finish_Date__c")
+    @SerializedName("HR_Assignment_Finish_Date__c")
     @Expose
     private String CustomerAssignmentFinishDate;
-    @SerializedName("CKSW__Assignment_Finish_Time_AMPM__c")
+    @SerializedName("HR_Assignment_Finish_Time_AMPM__c")
     @Expose
     private String CustomerAssignmentFinishTime;
     @SerializedName("AppointmentDateTime")
@@ -77,7 +77,7 @@ public class ServiceTasks implements Parcelable {
     @Expose
     private Integer TotalSRCount;
 
-    @SerializedName("CKSW__Assigned_Resource__r")
+    @SerializedName("HR_Assigned_Resource__r")
     @Expose
     private ServiceTechnicianDetails TechnicianDetail;
 

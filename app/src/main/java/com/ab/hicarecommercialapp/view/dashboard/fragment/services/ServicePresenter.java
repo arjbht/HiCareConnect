@@ -94,9 +94,9 @@ public class ServicePresenter {
     }
 
 
-    public void getServiceHistory(final MyServiceRequest request, final String sDate, final String eDate) {
+    public void getServiceHistory(final String qccountNo, final String sDate, final String eDate, final Integer offset, final Integer pageSize, final Boolean isChld) {
         BaseApplication.getRetrofitAPI(false)
-                .getServiceHistory(request.getAccountNo(), sDate, eDate, request.getPageOffset(), request.getPageSize())
+                .getServiceHistory(qccountNo, sDate, eDate, offset, pageSize, isChld)
                 .enqueue(new Callback<ServiceResponse>() {
                     @Override
                     public void onResponse(Call<ServiceResponse> call, Response<ServiceResponse> response) {

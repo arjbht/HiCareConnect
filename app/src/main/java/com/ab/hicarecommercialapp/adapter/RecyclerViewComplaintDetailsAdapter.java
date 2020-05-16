@@ -72,7 +72,7 @@ public class RecyclerViewComplaintDetailsAdapter extends RecyclerView.Adapter<Re
             }
         }
 
-        holder.txtInteraction.setText(Html.fromHtml(String.valueOf(ssb)));
+        holder.txtInteraction.setText(Html.fromHtml(items.get(position).getBody_text()));
         try {
             DateTime today = DateTime.now();
             DateTime yesterday = today.minusDays(1);

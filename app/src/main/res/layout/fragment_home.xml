@@ -7,10 +7,9 @@
     android:orientation="vertical"
     tools:context=".view.dashboard.fragment.HomeFragment">
 
-
     <include
-        android:id="@+id/shimmerHome"
-        layout="@layout/shimmer_home_dashboard" />
+    android:id="@+id/shimmerHome"
+    layout="@layout/shimmer_home_dashboard" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollHome"
@@ -25,13 +24,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:descendantFocusability="blocksDescendants">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="4">
 
 
@@ -54,8 +54,8 @@
 
                         <LinearLayout
                             android:id="@+id/auditInner"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="51dp"
+                            android:layout_height="53dp"
                             android:layout_margin="2dp"
                             android:background="@drawable/circlebg"
                             android:gravity="center">
@@ -65,7 +65,7 @@
                                 android:layout_width="27dp"
                                 android:layout_height="27dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_invoice" />
+                                app:srcCompat="@drawable/ic_invoice" />
                         </LinearLayout>
 
 
@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="Audits"
+                        android:text="@string/audits"
                         android:textColor="@color/black" />
 
                 </LinearLayout>
@@ -109,11 +109,11 @@
                             android:gravity="center">
 
 
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_payment" />
+                                app:srcCompat="@drawable/ic_payment" />
                         </LinearLayout>
 
 
@@ -159,7 +159,7 @@
                                 android:layout_width="27dp"
                                 android:layout_height="27dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_complaint" />
+                                app:srcCompat="@drawable/ic_complaint" />
                         </LinearLayout>
 
 
@@ -200,11 +200,11 @@
                             android:gravity="center">
 
 
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="27dp"
                                 android:layout_height="27dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_service" />
+                                app:srcCompat="@drawable/ic_service" />
                         </LinearLayout>
 
 
@@ -214,7 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="Services"
+                        android:text="@string/services"
                         android:textColor="@color/black" />
 
                 </LinearLayout>
@@ -245,11 +245,11 @@
                             android:gravity="center">
 
 
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="27dp"
                                 android:layout_height="27dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_expert" />
+                                app:srcCompat="@drawable/ic_expert" />
                         </LinearLayout>
 
 
@@ -259,18 +259,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="Get an Expert"
+                        android:text="@string/get_an_expert"
                         android:textColor="@color/black" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="4dp"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 android:background="@drawable/today_rect" />
 
             <LinearLayout
@@ -379,17 +379,17 @@
                         android:layout_weight="1"
                         android:gravity="center">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgLeft"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
-                            android:src="@drawable/ic_left_arrow" />
+                            app:srcCompat="@drawable/ic_left_arrow" />
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgLeftDefault"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
-                            android:src="@drawable/ic_left_default_arrow"
+                            app:srcCompat="@drawable/ic_left_default_arrow"
                             android:visibility="gone" />
 
                     </RelativeLayout>
@@ -420,17 +420,17 @@
                         android:layout_weight="1"
                         android:gravity="center">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgRight"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
-                            android:src="@drawable/ic_right" />
+                            app:srcCompat="@drawable/ic_right" />
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgRightDefault"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
-                            android:src="@drawable/ic_right_default"
+                            app:srcCompat="@drawable/ic_right_default"
                             android:visibility="gone" />
 
                     </RelativeLayout>
@@ -456,9 +456,9 @@
                         android:id="@+id/loader"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        app:mk_color="@color/darkBlue"
                         android:layout_centerInParent="true"
                         android:visibility="gone"
+                        app:mk_color="@color/darkBlue"
                         app:mk_type="LineSpinner" />
 
                     <LinearLayout
@@ -470,25 +470,275 @@
                         android:visibility="gone">
 
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgGraph"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:src="@drawable/ic_graph" />
+                            app:srcCompat="@drawable/ic_bar" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="No Chart Available"
-                            android:textColor="@color/colorPrimary" />
+                            android:layout_marginTop="10dp"
+                            android:text="No Graph Available"
+                            android:textColor="@color/black" />
 
                     </LinearLayout>
 
 
                 </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+
+
+
+                    <RelativeLayout
+                        android:id="@+id/idService"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        >
+
+
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardService"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center"
+                            app:cardElevation="2dp"
+                            android:layout_margin="3dp"
+                            android:layout_centerInParent="true"
+                            app:cardBackgroundColor="@color/green"
+                            app:cardPreventCornerOverlap="false">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+
+                                <TextView
+                                    android:id="@+id/txtServices"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/isService"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Services"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:id="@+id/txtDayWise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="(Day Wise)"
+                                    android:textColor="@color/white"
+                                    android:visibility="gone"
+                                    android:textSize="11sp" />
+
+                            </LinearLayout>
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="right"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            app:cardBackgroundColor="@color/innerGreen"
+                            app:cardElevation="5dp"
+                            app:cardPreventCornerOverlap="false"
+                            >
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_service" />
+
+                        </androidx.cardview.widget.CardView>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/idComplaint"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        >
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardComplaints"
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                app:cardElevation="2dp"
+                                android:layout_margin="3dp"
+                                android:layout_centerInParent="true"
+                                app:cardBackgroundColor="@color/dark_yellow"
+                                app:cardPreventCornerOverlap="false">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+
+                                    <TextView
+                                        android:id="@+id/txtComplaints"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0"
+                                        android:textColor="@color/white"
+                                        android:textSize="20sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/complaints"
+                                        android:textColor="@color/white"
+                                        android:textSize="15sp" />
+
+                                </LinearLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="right"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            app:cardBackgroundColor="@color/innerYellow"
+                            app:cardElevation="5dp"
+                            app:cardPreventCornerOverlap="false"
+                            >
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_complaint" />
+
+                        </androidx.cardview.widget.CardView>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/idAudit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardAudit"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center"
+                            app:cardElevation="2dp"
+                            android:layout_margin="3dp"
+                            android:layout_centerInParent="true"
+                            app:cardBackgroundColor="@color/redDark"
+                            app:cardPreventCornerOverlap="false">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+
+                                <TextView
+                                    android:id="@+id/txtAudits"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Audit Rating"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:id="@+id/txtAuditDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp" />
+
+                            </LinearLayout>
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="right"
+                            android:background="@color/redDark"
+                            android:gravity="center"
+                            app:cardBackgroundColor="#ffe4fc"
+                            app:cardElevation="5dp"
+                            android:visibility="gone"
+                            app:cardPreventCornerOverlap="false"
+                            >
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_invoice" />
+
+                        </androidx.cardview.widget.CardView>
+
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -497,7 +747,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0.5dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/colorAccentDrawerPrimaryLightest" />
+                android:background="@color/colorAccentDrawerPrimaryLightest"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/lnrToday"
@@ -536,7 +787,6 @@
             <!--android:id="@+id/recycleAmount"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content" />-->
-
             <!--</LinearLayout>-->
 
             <LinearLayout
@@ -549,7 +799,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="Upcoming Services"
+                    android:text="@string/upcoming_services"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -578,41 +828,38 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:text="View more..."
+                            android:text="@string/view_more"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
                 </LinearLayout>
-                
+
                 <LinearLayout
                     android:id="@+id/emptyBox"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
-                    android:orientation="vertical"
                     android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/empty_box"
-                       />
+                        android:src="@drawable/empty_box" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:text="There is no Upcoming Services to display."/>
+                        android:text="@string/there_is_no_upcoming_services_to_display"
+                        android:textColor="@color/black" />
 
                 </LinearLayout>
-
-
 
 
             </LinearLayout>
@@ -630,10 +877,12 @@
         android:layout_alignParentBottom="true" />
 
     <!--<cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager-->
-        <!--android:id="@+id/todaysPager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="55dp"-->
-        <!--android:layout_alignParentBottom="true"/>-->
+    <!--android:id="@+id/todaysPager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="55dp"-->
+    <!--android:layout_alignParentBottom="true"/>-->
+
+
 
 
     <ProgressBar

@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:gravity="center">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:adjustViewBounds="true"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"
-            android:text="There is no Branch to display."/>
+            android:text="@string/there_is_no_branch_to_display"/>
 
     </LinearLayout>
 

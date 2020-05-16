@@ -17,7 +17,7 @@ public class InvoiceResponse {
     private String message;
     @SerializedName("Data")
     @Expose
-    private List<Invoices> data = null;
+    private List<Invoices> data;
 
     public Boolean getIsSuccess() {
         return isSuccess;

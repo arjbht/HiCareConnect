@@ -17,9 +17,12 @@ public class SharedPreferencesUtility {
     public static final String ACCOUNT_ID = "ACCOUNT_ID";
     public static final String IS_ACCOUNT_THERE = "IS_ACCOUNT_THERE";
     public static final String ACCOUNT_ADDRESS = "ACCOUNT_ADDRESS";
+    public static final String ACCOUNT_NAME = "ACCOUNT_NAME";
     public static final String IS_SELF_REGISTERED = "IS_SELF_REGISTERED";
     public static final String IS_GEOFENCE = "IS_GEOFENCE";
     public static final String IS_TODAY = "IS_TODAY";
+    public static final String SHOW_GUIDE = "SHOW_GUIDE";
+    public static final String IS_SERVICE_DAY_WISE = "IS_SERVICE_DAY_WISE";
 
 
     public static boolean getPrefBoolean(Context context, String key) {
@@ -39,6 +42,9 @@ public class SharedPreferencesUtility {
                 context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         return prefs.getString(key, "");
     }
+
+
+
     public static void savePrefString(Context context, String key, String value) {
         SharedPreferences prefs =
                 context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);

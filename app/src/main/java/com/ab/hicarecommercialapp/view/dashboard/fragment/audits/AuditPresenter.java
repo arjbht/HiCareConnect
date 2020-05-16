@@ -23,7 +23,7 @@ public class AuditPresenter {
     public void getCustomerAudit(final String accountId, final String startDate, final String endDate) {
         view.showLoading();
         BaseApplication.getRetrofitAPI(true)
-                .getCustomerAudits(accountId, startDate, endDate)
+                .getCustomerAudits(accountId, startDate, endDate, true)
                 .enqueue(new Callback<AuditResponse>() {
                     @Override
                     public void onResponse(Call<AuditResponse> call, Response<AuditResponse> response) {

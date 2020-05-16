@@ -47,6 +47,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private RealmResults<Branch> branchRealmListResults;
     private TextView txtLocation;
 
+
     public BottomSheetFragment() {
 
     }

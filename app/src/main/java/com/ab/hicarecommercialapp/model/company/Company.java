@@ -9,19 +9,23 @@ import com.google.gson.annotations.SerializedName;
 public class Company {
     @SerializedName("CompanyCode")
     @Expose
-    private String CompanyCode = null;
+    private String CompanyCode;
 
     @SerializedName("IsSelfRegisteredAllowed")
     @Expose
-    private Integer IsSelfRegisteredAllowed = null;
+    private Integer IsSelfRegisteredAllowed;
 
     @SerializedName("IsGeofenceModeEnabled")
     @Expose
-    private Integer IsGeofenceModeEnabled = null;
+    private Integer IsGeofenceModeEnabled;
 
     @SerializedName("CompanyLogo")
     @Expose
-    private String CompanyLogo = null;
+    private String CompanyLogo;
+
+    @SerializedName("ShowServiceDayWise")
+    @Expose
+    private Boolean ShowServiceDayWise;
 
     public String getCompanyCode() {
         return CompanyCode;
@@ -53,5 +57,13 @@ public class Company {
 
     public void setCompanyLogo(String companyLogo) {
         CompanyLogo = companyLogo;
+    }
+
+    public Boolean getShowServiceDayWise() {
+        return ShowServiceDayWise;
+    }
+
+    public void setShowServiceDayWise(Boolean showServiceDayWise) {
+        ShowServiceDayWise = showServiceDayWise;
     }
 }
